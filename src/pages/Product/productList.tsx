@@ -586,12 +586,12 @@ const AltPagination = () => {
                         {
                             accessor: 'Opsi',
                             title: 'Opsi',
-                            render: ({ row }) => (
+                            render: ({ }) => (
                                 <div>
-                                    <button className='rounded-full bg-orange-500 text-white p-2 mx-1' onClick={() => handleEdit(row.original.id)}>
+                                    <button className='rounded-full bg-orange-500 text-white p-2 mx-1'>
                                         <FaInfoCircle />
                                     </button>
-                                    <button className='rounded-full bg-[red] text-white p-2 mx-1' onClick={() => handleDelete(row.original.id)}>
+                                    <button className='rounded-full bg-[red] text-white p-2 mx-1'>
                                         <FaTrash />
                                     </button>
                                 </div>
