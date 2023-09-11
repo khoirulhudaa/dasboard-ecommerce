@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { createAcc }
+import { signupSellerInterface } from '../../interfaces/signupSellerInterface';
 import API from '../../services/api';
 import { AxiosResponse } from 'axios';
 
@@ -31,9 +31,7 @@ const RegisterBoxed = () => {
         })
     };
 
-    const onSubmit = async (e: any) => {
-        e.preventDefault()
-
+    const onSubmit = async (e: signupSellerInterface) => {
         const response: AxiosResponse<any> = await API.createAccountSeller(data)
         if(response) {
             alert(response.status)
@@ -47,7 +45,7 @@ const RegisterBoxed = () => {
                 <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
                     <h2 className="font-bold text-2xl mb-3">Sign Up</h2>
                     <p className="mb-7">Lets go join with ElectShop</p>
-                    <form className="space-y-5" onSubmit={onSubmit}>
+                    <form className="space-y-5">
                         <div>
                             <label htmlFor="name">Name</label>
                             <input id="name" type="text" name='seller_name' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Name" />
