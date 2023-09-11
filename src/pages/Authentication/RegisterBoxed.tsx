@@ -61,7 +61,7 @@ const RegisterBoxed = () => {
                         </div>
                         <div>
                             <label htmlFor="telpehone">Number telephone</label>
-                            <input id="telephone" type="number" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
+                            <input id="telephone" type="text" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
                         </div>
                         <div>
                             <label htmlFor="gender">Gender</label>
