@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../../store/themeConfigSlice';
+import { createAcc }
 import API from '../../services/api';
 import { AxiosResponse } from 'axios';
 
@@ -33,10 +34,10 @@ const RegisterBoxed = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault()
 
-        console.log('data: ', data)
-
         const response: AxiosResponse<any> = await API.createAccountSeller(data)
-        console.log('response:', response)
+        if(response) {
+            alert(response.status)
+        }
     }
 
     console.log('data :', data)
