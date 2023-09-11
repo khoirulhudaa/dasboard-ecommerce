@@ -10,11 +10,35 @@ interface authInterface {
 }
 
 interface authStates {
-
+    auth: authInterface
 }
 
 const initialState: authStates = {
     auth: {
-
+        seller_id: "",
+        email_seller: "",
+        password: "",
+        seller_name: "",
+        telephone_seller: "",
+        gender: ""  
     }
 }
+
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        authSignIn: (state, action:PayloadAction<authInterface>) => {
+            state.auth = {
+                ...state.auth,
+                ...action.payload
+            }
+        },
+        authSignOut: (state) => {
+            state.auth = initialState.auth
+        }
+    }
+})
+
+export const { authSignIn, authSignOut } = authSlice.actions
+export default authSlice.reducer

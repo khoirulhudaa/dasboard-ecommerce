@@ -1,17 +1,25 @@
 import api from "./axios";
 
 const API = {
-    // Bikin akun pengguna
-    createAccount: (body: any) => {
-        return api.post('/auth/signup', body)
+
+    // Akun penjual
+    checkAccountSeller: (body: any) => {
+        return api.post('/account/signin/seller', body)
     },
-    // Bikin akun penjual
-    createAccountShop: (body: any) => {
-        return api.post('/shop', body)
+    createAccountSeller: (body: any) => {
+        return api.post('/account/signup/seller', body)
     },
-    checkAccount: () => {
-        return api.post('/auth/signup')
+    
+    
+    // Akun pengguna
+    checkAccountConsumer: (body: any) => {
+        return api.post('/account/signup/consumer', body)
     },
+    createAccountConsumer: () => {
+        return api.post('/account/signin/consumer')
+    },
+
+    // Product
     getAllProduct: () => {
         return api.get('/products')
     },
@@ -21,6 +29,12 @@ const API = {
     getProfileAccount: () => {
         return api.get('/profileAccount')
     },
+
+
+    // shop
+
+
+    // history
 }
 
 export default API;

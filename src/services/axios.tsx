@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'https://restapi-electshop.vercel.app',
+    baseURL: 'https://huda.descode.id',
     headers: {
       "Content-Type": true
     }    

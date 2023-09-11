@@ -11,7 +11,8 @@ const RegisterBoxed = () => {
         seller_name: '',
         email_seller: '',
         password: '',
-        telephone_seller: ''
+        telephone_seller: '',
+        gender: ''
     })
     const [errorStatus, setErrorStatus] = useState(null)
 
@@ -31,7 +32,10 @@ const RegisterBoxed = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault()
-        const response: AxiosResponse<any> = await API.createAccountShop(data)
+
+        console.log('data: ', data)
+
+        const response: AxiosResponse<any> = await API.createAccountSeller(data)
         console.log('response:', response)
     }
 
@@ -58,6 +62,14 @@ const RegisterBoxed = () => {
                         <div>
                             <label htmlFor="telpehone">Number telephone</label>
                             <input id="telephone" type="number" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
+                        </div>
+                        <div>
+                            <label htmlFor="gender">Gender</label>
+                            <select name='gender' className='w-[90%] bg-white outline-0 border-0 p-2 box-sizing' onChange={(e) => handleChange(e)}>
+                                <option value="">Select your gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
                         <button type="submit" className="btn btn-primary w-full" onClick={(e) => onSubmit(e)}>
                             SIGN UP
