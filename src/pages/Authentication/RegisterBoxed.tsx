@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { signupSellerInterface } from '../../interfaces/signupSellerInterface';
 import API from '../../services/api';
 import { AxiosResponse } from 'axios';
 
@@ -31,7 +30,7 @@ const RegisterBoxed = () => {
         })
     };
 
-    const onSubmit = async (e: signupSellerInterface) => {
+    const onSubmit = async (e: any) => {
         const response: AxiosResponse<any> = await API.createAccountSeller(data)
         if(response) {
             alert(response.status)
