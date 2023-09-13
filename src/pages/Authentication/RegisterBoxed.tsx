@@ -32,7 +32,7 @@ const RegisterBoxed = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault()
-
+        console.log('cek data:', data)
         const response: AxiosResponse<any> = await API.createAccountSeller(data)
         if(response) {
             console.log(response)
