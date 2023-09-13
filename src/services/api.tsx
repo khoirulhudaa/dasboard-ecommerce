@@ -10,7 +10,6 @@ const API = {
         return api.post('/account/signup/seller', body)
     },
     
-    
     // Akun pengguna
     checkAccountConsumer: (body: any) => {
         return api.post('/account/signup/consumer', body)

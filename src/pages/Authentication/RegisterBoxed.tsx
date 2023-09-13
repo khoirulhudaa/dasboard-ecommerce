@@ -32,9 +32,10 @@ const RegisterBoxed = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault()
+
         const response: AxiosResponse<any> = await API.createAccountSeller(data)
         if(response) {
-            alert(response.status)
+            console.log(response)
         }
     }
 
