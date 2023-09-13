@@ -50,19 +50,19 @@ const RegisterBoxed = () => {
                     <form className="space-y-5">
                         <div>
                             <label htmlFor="name">Name</label>
-                            <input id="name" type="text" name='seller_name' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Name" />
+                            <input id="name" type="text" name='seller_name' value={data.seller_name} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Name" />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input id="email" type="email" name='email_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Email" />
+                            <input id="email" type="email" name='email_seller' value={data.email_seller} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Email" />
                         </div>
                         <div>
                             <label htmlFor="password">Password</label>
-                            <input id="password" type="password" name='password' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Password" />
+                            <input id="password" type="password" name='password' value={data.password} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Password" />
                         </div>
                         <div>
                             <label htmlFor="telpehone">Number telephone</label>
-                            <input id="telephone" type="text" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
+                            <input id="telephone" type="text" name='telephone_seller' value={data.telephone_seller} onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
                         </div>
                         <div>
                             <label htmlFor="gender">Gender</label>
