@@ -1,3 +1,4 @@
+import { signupSellerInterface } from "../interfaces/signupSellerInterface";
 import api from "./axios";
 
 const API = {
@@ -6,7 +7,7 @@ const API = {
     checkAccountSeller: (body: any) => {
         return api.post('/account/signin/seller', body)
     },
-    createAccountSeller: (body: any) => {
+    createAccountSeller: (body: signupSellerInterface) => {
         return api.post('/account/signup/seller', body)
     },
     
