@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import API from '../../services/api';
 import { AxiosResponse } from 'axios';
+import { signupSellerInterface } from '../../interfaces/signupSellerInterface';
 
 const RegisterBoxed = () => {
 
@@ -33,7 +34,7 @@ const RegisterBoxed = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault()
         console.log('cek data:', data)
-        const response: AxiosResponse<any> = await API.createAccountSeller(data)
+        const response: AxiosResponse<signupSellerInterface> = await API.createAccountSeller(data)
         if(response) {
             console.log(response)
         }
