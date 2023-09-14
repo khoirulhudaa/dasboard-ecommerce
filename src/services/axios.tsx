@@ -3,7 +3,7 @@ import axios from "axios";
 const api = axios.create({
     baseURL: 'https://huda.descode.id',
     headers: {
-      "Content-Type": true
+      "Content-Type": "application/json"
     }    
 })
 
