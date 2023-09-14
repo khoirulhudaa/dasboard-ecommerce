@@ -34,10 +34,21 @@ const RegisterBoxed = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault()
         console.log('cek data:', data)
-        
-        const response: AxiosResponse<signupSellerInterface> = await API.createAccountSeller(data)
-        if(response) {
-            console.log(response)
+        try {
+            const response: AxiosResponse<signupSellerInterface> = await API.createAccountSeller(data)
+            if(response.status === 200) {
+                setData({
+                    seller_name: '',
+                    email_seller: '',
+                    password: '',
+                    telephone_seller: '',
+                    gender: ''
+                });
+                // Clear any error status if needed
+                setErrorStatus(null);
+            }
+        } catch (error: any) {
+            setErrorStatus(error.message)
         }
     }
 
