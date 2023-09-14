@@ -27,6 +27,7 @@ const LoginBoxed = () => {
 
         try {
             const response: AxiosResponse<signSellerInterface> = await API.checkAccountSeller(data)
+            console.log('result:', response)
             if(response.status === 200) {
                 setData({
                     email_seller: '',
