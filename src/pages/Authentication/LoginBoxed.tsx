@@ -26,7 +26,7 @@ const LoginBoxed = () => {
         e.preventDefault()
 
         try {
-            const response: AxiosResponse<signSellerInterface> = await API.checkAccountConsumer(data)
+            const response: AxiosResponse<signSellerInterface> = await API.checkAccountSeller(data)
             if(response.status === 200) {
                 setData({
                     email_seller: '',
