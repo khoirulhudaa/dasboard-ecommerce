@@ -33,7 +33,7 @@ const RegisterBoxed = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault()
-        console.log('cek data:', data)
+        
         try {
             const response: AxiosResponse<signupSellerInterface> = await API.createAccountSeller(data)
             if(response.status === 200) {
@@ -52,7 +52,6 @@ const RegisterBoxed = () => {
         }
     }
 
-    console.log('data :', data)
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">

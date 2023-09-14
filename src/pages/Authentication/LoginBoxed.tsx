@@ -1,42 +1,60 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../../store';
-import { useEffect } from 'react';
-import { setPageTitle } from '../../store/themeConfigSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import API from '../../services/api';
 
 const LoginBoxed = () => {
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setPageTitle('Login Boxed'));
-    });
-    const navigate = useNavigate();
-    const isDark = useSelector((state: IRootState) => state.themeConfig.theme) === 'dark' ? true : false;
+    const [data, setData] = useState({
+        email_seller: '',
+        password: ''
+    })
 
-    const submitForm = () => {
-        navigate('/');
-    };
+    const [errorStatus, setErrorStatus] = useState(null)
+    
+    const navigate = useNavigate();
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target
+        setData({
+            ...data,
+            [name]: value
+        })
+    }
+
+    const onSubmit = async (e: any) => {
+        e.preventDefault()
+
+        try {
+            const response: AxiosResponse = await API.checkAccountConsumer(data)
+            if(response.status === 200) {
+                setData({
+                    email_seller: '',
+                    password: ''
+                })
+                setErrorStatus(null)
+            }
+        } catch (error: any) {
+            setErrorStatus(error.message)
+        }
+    }
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
             <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
                 <h2 className="font-bold text-2xl mb-3">Sign In</h2>
                 <p className="mb-7">Enter your email and password to login</p>
-                <form className="space-y-5" onSubmit={submitForm}>
+                <form className="space-y-5" onSubmit={onSubmit}>
                     <div>
                         <label htmlFor="email">Email</label>
-                        <input id="email" type="email" className="form-input" placeholder="Enter Email" />
+                        <input id="email" type="email" value={data.email_seller} name='email_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Email" />
                     </div>
                     <div>
                         <label htmlFor="password">Password</label>
-                        <input id="password" type="password" className="form-input" placeholder="Enter Password" />
+                        <input id="password" type="password" value={data.password} name='password' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Password" />
                     </div>
-                    <div>
-                        <label className="cursor-pointer">
-                            <input type="checkbox" className="form-checkbox" />
-                            <span className="text-white-dark">Subscribe to weekly newsletter</span>
-                        </label>
-                    </div>
-                    <button type="submit" className="btn btn-primary w-full">
+                    <button type="submit" onClick={(e) => onSubmit(e)} className="btn btn-primary w-full">
                         SIGN IN
                     </button>
                 </form>
