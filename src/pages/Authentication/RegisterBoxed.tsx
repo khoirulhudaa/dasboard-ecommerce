@@ -35,7 +35,7 @@ const RegisterBoxed = () => {
         e.preventDefault()
 
         try {
-            const response: AxiosResponse<signSellerInterface> = await API.createAccountSeller(data)
+            const response: AxiosResponse = await API.createAccountSeller(data)
             if(response.status === 200) {
                 setData({
                     seller_name: '',
