@@ -41,6 +41,7 @@ const RegisterBoxed = () => {
         }
     }
 
+    console.log('data :', data)
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
@@ -62,7 +63,7 @@ const RegisterBoxed = () => {
                         </div>
                         <div>
                             <label htmlFor="telpehone">Number telephone</label>
-                            <input id="telephone" type="text" name='teleIllegal arguments: undefined, stringphone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
+                            <input id="telephone" type="text" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
                         </div>
                         <div>
                             <label htmlFor="gender">Gender</label>
