@@ -48,7 +48,7 @@ const LoginBoxed = () => {
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
             <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
                 <small className='text-[red] tex-[12px] font-normal mb-4'>{errorStatus !== null ? errorStatus : ""}</small>
-                <h2 className="font-bold text-2xl mb-3">Sign In</h2>
+                <h2 className="font-bold text-2xl mb-[15px]">Sign In</h2>
                 <p className="mb-7">Enter your email and password to login</p>
                 <form className="space-y-5" onSubmit={onSubmit}>
                     <div>
