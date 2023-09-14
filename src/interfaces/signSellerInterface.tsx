@@ -1,4 +1,4 @@
-export interface signupSellerInterface {
+export interface signSellerInterface {
     email_seller?: String,
     seller_name?: String,
     gender?: String,

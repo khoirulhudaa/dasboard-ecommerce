@@ -1,13 +1,13 @@
-import { signupSellerInterface } from "../interfaces/signupSellerInterface";
+import { signSellerInterface } from "../interfaces/signSellerInterface";
 import api from "./axios";
 
 const API = {
 
     // Akun penjual
-    checkAccountSeller: (body: any) => {
+    checkAccountSeller: (body: signSellerInterface) => {
         return api.post('/account/signin/seller', body)
     },
-    createAccountSeller: (body: signupSellerInterface) => {
+    createAccountSeller: (body: signSellerInterface) => {
         console.log('body', body)
         return api.post('/account/signup/seller', body)
     },

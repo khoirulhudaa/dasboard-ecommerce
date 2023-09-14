@@ -1,11 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { signSellerInterface } from '../../interfaces/signSellerInterface';
 import API from '../../services/api';
 
 const LoginBoxed = () => {
-    const dispatch = useDispatch();
     const [data, setData] = useState({
         email_seller: '',
         password: ''
@@ -27,13 +26,14 @@ const LoginBoxed = () => {
         e.preventDefault()
 
         try {
-            const response: AxiosResponse = await API.checkAccountConsumer(data)
+            const response: AxiosResponse<signSellerInterface> = await API.checkAccountConsumer(data)
             if(response.status === 200) {
                 setData({
                     email_seller: '',
                     password: ''
                 })
                 setErrorStatus(null)
+                navigate('/')
             }
         } catch (error: any) {
             setErrorStatus(error.message)
