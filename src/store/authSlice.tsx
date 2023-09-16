@@ -1,16 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface authInterface {
-    seller_id: String,
-    email_seller: String,
-    password: String,
-    seller_name: String,
-    telephone_seller: String,
-    gender: String        
-}
+import { authInterface } from "../interfaces/authInterface";
 
 interface authStates {
-    auth: authInterface
+    auth: authInterface,
+    token: String
 }
 
 const initialState: authStates = {
@@ -21,7 +14,8 @@ const initialState: authStates = {
         seller_name: "",
         telephone_seller: "",
         gender: ""  
-    }
+    },
+    token: ""
 }
 
 const authSlice = createSlice({
@@ -35,10 +29,14 @@ const authSlice = createSlice({
             }
         },
         authSignOut: (state) => {
-            state.auth = initialState.auth
+            state.auth = initialState.auth;
+            state.token = ""
+        },
+        saveToken: (state, action:PayloadAction<String>) => {
+            state.token = action.payload
         }
     }
 })
 
-export const { authSignIn, authSignOut } = authSlice.actions
+export const { authSignIn, authSignOut, saveToken } = authSlice.actions
 export default authSlice.reducer

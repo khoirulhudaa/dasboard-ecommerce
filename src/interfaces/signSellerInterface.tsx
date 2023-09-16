@@ -3,5 +3,5 @@ export interface signSellerInterface {
     seller_name?: String,
     gender?: String,
     telephone_seller?: String,
-    password?: String
+    password?: String,
 }

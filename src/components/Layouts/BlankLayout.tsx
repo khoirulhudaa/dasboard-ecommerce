@@ -4,7 +4,7 @@ import App from '../../App';
 const BlankLayout = ({ children }: PropsWithChildren) => {
     return (
         <App>
-            <div className="text-black dark:text-white-dark min-h-screen">{children} </div>
+            <div className="text-black dark:text-white-dark min-h-screen">{children}</div>
         </App>
     );
 };
