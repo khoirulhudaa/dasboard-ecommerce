@@ -1,22 +1,16 @@
 import { signSellerInterface } from "../interfaces/signSellerInterface";
-import api from "./axios";
+import setupAxiosInterceptors from "./axios";
 
-import useSWR from 'swr'
-
-const fetcher = async (url: any ,body: signSellerInterface) => {
-    const response = await api.post(url, body)
-    return response.data
-}
+const api = setupAxiosInterceptors()
 
 const API = {
 
     // Akun penjual
     checkAccountSeller: (body: signSellerInterface) => {
-        const url = '/account/signin/seller'
-        return useSWR(url, () => fetcher(url, body))
+        return api.post('/account/signin/seller', body)
     },
-
     createAccountSeller: (body: signSellerInterface) => {
+        console.log('body', body)
         return api.post('/account/signup/seller', body)
     },
     

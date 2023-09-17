@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signSellerInterface } from '../../interfaces/signSellerInterface';
 import API from '../../services/api';
 
 const LoginBoxed = () => {
