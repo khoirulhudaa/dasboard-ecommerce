@@ -1,7 +1,5 @@
 import { signSellerInterface } from "../interfaces/signSellerInterface";
-import setupAxiosInterceptors from "./axios";
-
-const api = setupAxiosInterceptors()
+import api from './axios'
 
 const API = {
 

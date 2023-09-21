@@ -1,10 +1,9 @@
+import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import API from '../../services/api';
-import { AxiosResponse } from 'axios';
-import { signSellerInterface } from '../../interfaces/signSellerInterface';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const RegisterBoxed = () => {
 
