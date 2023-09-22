@@ -12,14 +12,7 @@ const RegisterBoxed = () => {
     
     const dispatch = useDispatch();
     const [errorStatus, setErrorStatus] = useState(null)
-    // const [data, setData] = useState({
-    //     seller_name: '',
-    //     email_seller: '',
-    //     password: '',
-    //     telephone_seller: '',
-    //     gender: ''
-    // })
-
+  
     const formik = useFormik<signSellerInterface>({
         initialValues: {
             seller_name: '',
@@ -51,13 +44,14 @@ const RegisterBoxed = () => {
                 const response: AxiosResponse = await API.createAccountSeller(values)
                 console.log('result response:', response)
                 if(response.data.status === 200) {
-                    formik.setValues({
+                    await formik.setValues({
                         seller_name: '',
                         email_seller: '',
                         password: '',
                         telephone_seller: '',
                         gender: ''
                     })
+                    formik.resetForm()
                     setErrorStatus(null);
                 }else if(response.data.status === 401) {
                     setErrorStatus(response.data.message)
@@ -74,39 +68,6 @@ const RegisterBoxed = () => {
         dispatch(setPageTitle('Register Boxed'));
     });
     
-    // const handleChange = (e: any) => {
-    //     const { value, name } = e.target
-    //     setData({
-    //         ...data,
-    //         [name]: value
-    //     })
-    // };
-    
-
-    // const onSubmit = async (e: any) => {
-    //     e.preventDefault()
-
-    //     try {
-    //         const response: AxiosResponse = await API.createAccountSeller(data)
-    //         console.log('result response:', response)
-    //         if(response.data.status === 200) {
-    //             setData({
-    //                 seller_name: '',
-    //                 email_seller: '',
-    //                 password: '',
-    //                 telephone_seller: '',
-    //                 gender: ''
-    //             });
-    //             setErrorStatus(null);
-    //         }else if(response.data.status === 401) {
-    //             setErrorStatus(response.data.message)
-    //         }
-    //     } catch (error: any) {
-    //         console.log(error)
-    //         setErrorStatus(error.message)
-    //     }
-    // }
-
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
@@ -164,13 +125,13 @@ const RegisterBoxed = () => {
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
-                            {formik.touched.gender && formik.errors.gender ? (
-                                <small className='text-[red] text-[12px] font-normal my-2'>
-                                    {formik.errors.gender}
-                                </small>
-                            ):
-                            null}
                         </div>
+                        {formik.touched.gender && formik.errors.gender ? (
+                            <small className='text-[red] text-[12px] font-normal my-2'>
+                                {formik.errors.gender}
+                            </small>
+                        ):
+                        null}
                         <button type="submit" className="btn btn-primary w-full" onClick={() => formik.handleSubmit}>
                             SIGN UP
                         </button>
