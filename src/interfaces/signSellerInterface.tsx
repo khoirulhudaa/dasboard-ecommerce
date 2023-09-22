@@ -1,7 +1,7 @@
 export interface signSellerInterface {
-    email_seller?: String,
-    seller_name?: String,
-    gender?: String,
-    telephone_seller?: String,
-    password?: String,
+    email_seller?: string,
+    seller_name?: string,
+    gender?: string,
+    telephone_seller?: string,
+    password?: string,
 }

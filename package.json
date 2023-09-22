@@ -32,7 +32,7 @@
         "apexcharts": "^3.37.1",
         "axios": "^1.4.0",
         "easymde": "^2.18.0",
-        "formik": "^2.2.9",
+        "formik": "^2.4.5",
         "highlight.js": "^11.6.0",
         "mantine-datatable": "^1.7.17",
         "nouislider-react": "^3.4.1",
@@ -63,7 +63,7 @@
         "swr": "^2.2.2",
         "typescript": "^4.8.4",
         "web-vitals": "^2.1.4",
-        "yup": "^0.32.11"
+        "yup": "^1.2.0"
     },
     "devDependencies": {
         "@headlessui/react": "^1.7.3",
