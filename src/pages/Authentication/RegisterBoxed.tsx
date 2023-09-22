@@ -14,7 +14,7 @@ const RegisterBoxed = () => {
         telephone_seller: '',
         gender: ''
     })
-    const [errorStatus, setErrorStatus] = useState<string | null>(null)
+    const [errorStatus, setErrorStatus] = useState(null)
 
     const dispatch = useDispatch();
 
@@ -35,8 +35,8 @@ const RegisterBoxed = () => {
 
         try {
             const response: AxiosResponse = await API.createAccountSeller(data)
-            console.log(response)
-            if(response.status === 200) {
+            console.log('result response:', response)
+            if(response.data.status === 200) {
                 setData({
                     seller_name: '',
                     email_seller: '',
@@ -46,11 +46,12 @@ const RegisterBoxed = () => {
                 });
                 // Clear any error status if needed
                 setErrorStatus(null);
-            }else if(response.status === 401) {
-                setErrorStatus("Field not null!");
+            }else if(response.data.status === 401) {
+                console.log('response4', response)
             }
         } catch (error: any) {
-            setErrorStatus(error.message)
+            console.log(error)
+            setErrorStatus(error)
         }
     }
 
@@ -58,25 +59,29 @@ const RegisterBoxed = () => {
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
                 <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
-                <small className='text-[red] tex-[12px] font-normal mb-4'>{errorStatus !== null ? errorStatus : ""}</small>
+                    <small className='text-[red] tex-[12px] font-normal mb-4'>
+                    {/* {errorStatus !== null
+                    ? errorStatus
+                    : ''} */}
+                    </small>
                     <h2 className="font-bold text-2xl mb-3">Sign Up</h2>
                     <p className="mb-7">Lets go join with ElectShop</p>
                     <form className="space-y-5">
                         <div>
                             <label htmlFor="name">Name</label>
-                            <input id="name" type="text" name='seller_name' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Name" />
+                            <input id="name" type="text" name='seller_name' value={data.seller_name} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Name" />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input id="email" type="email" name='email_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Email" />
+                            <input id="email" type="email" name='email_seller' value={data.email_seller} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Email" />
                         </div>
                         <div>
                             <label htmlFor="password">Password</label>
-                            <input id="password" type="password" name='password' onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Password" />
+                            <input id="password" type="password" name='password' value={data.password} onChange={(e) => handleChange(e)} className="form-input" placeholder="Enter Password" />
                         </div>
                         <div>
                             <label htmlFor="telpehone">Number telephone</label>
-                            <input id="telephone" type="text" name='telephone_seller' onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
+                            <input id="telephone" type="text" name='telephone_seller' value={data.telephone_seller} onChange={(e) => handleChange(e)} className="form-input" placeholder="08xxxxxxxxxxx" />
                         </div>
                         <div>
                             <label htmlFor="gender">Gender</label>
