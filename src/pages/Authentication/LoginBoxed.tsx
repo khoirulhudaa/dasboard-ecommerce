@@ -2,6 +2,8 @@ import { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../../services/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { authSignIn } from '../../store/authSlice';
 
 const LoginBoxed = () => {
     const [data, setData] = useState({
@@ -12,6 +14,7 @@ const LoginBoxed = () => {
     const [errorStatus, setErrorStatus] = useState(null)
     
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const handleChange = (e: any) => {
         const { name, value } = e.target
@@ -21,12 +24,15 @@ const LoginBoxed = () => {
         })
     }
 
+    const datas = useSelector((state: any) => state.authSlice.auth);
+    console.log('data1', datas)
+
     const onSubmit = async (e: any) => {
         e.preventDefault()
 
         try {
             const response: AxiosResponse = await API.checkAccountSeller(data)
-            console.log('result:', response)
+            dispatch(authSignIn(response.data))
             if(response.data.status === 200) {
                 setData({
                     email_seller: '',
@@ -35,7 +41,6 @@ const LoginBoxed = () => {
                 setErrorStatus(null)
                 navigate('/')
             }else {
-                alert(response.data.message)
                 setErrorStatus(response.data.message)
             }
         } catch (error: any) {

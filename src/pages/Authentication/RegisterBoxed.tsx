@@ -14,7 +14,7 @@ const RegisterBoxed = () => {
         telephone_seller: '',
         gender: ''
     })
-    const [errorStatus, setErrorStatus] = useState(null)
+    const [errorStatus, setErrorStatus] = useState<string | null>(null)
 
     const dispatch = useDispatch();
 
@@ -35,6 +35,7 @@ const RegisterBoxed = () => {
 
         try {
             const response: AxiosResponse = await API.createAccountSeller(data)
+            console.log(response)
             if(response.status === 200) {
                 setData({
                     seller_name: '',
@@ -45,6 +46,8 @@ const RegisterBoxed = () => {
                 });
                 // Clear any error status if needed
                 setErrorStatus(null);
+            }else if(response.status === 401) {
+                setErrorStatus("Field not null!");
             }
         } catch (error: any) {
             setErrorStatus(error.message)
@@ -55,6 +58,7 @@ const RegisterBoxed = () => {
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
                 <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
+                <small className='text-[red] tex-[12px] font-normal mb-4'>{errorStatus !== null ? errorStatus : ""}</small>
                     <h2 className="font-bold text-2xl mb-3">Sign Up</h2>
                     <p className="mb-7">Lets go join with ElectShop</p>
                     <form className="space-y-5">

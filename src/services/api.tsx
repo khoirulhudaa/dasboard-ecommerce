@@ -8,7 +8,6 @@ const API = {
         return api.post('/account/signin/seller', body)
     },
     createAccountSeller: (body: signSellerInterface) => {
-        console.log('body', body)
         return api.post('/account/signup/seller', body)
     },
     
