@@ -21,10 +21,10 @@ const API = {
 
     // Product
     getAllProduct: () => {
-        return api.get('/products')
+        return api.get('/product')
     },
     getAllHistoryBuy: () => {
-        return api.get('/historyBuy')
+        return api.get('/history')
     },
     getProfileAccount: () => {
         return api.get('/profileAccount')

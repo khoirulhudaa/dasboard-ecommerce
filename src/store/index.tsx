@@ -11,6 +11,8 @@ const rootReducer = combineReducers({
     shopSlice
 });
 
+const rootRedurecers = combineReducers({})
+
 export default configureStore({
     reducer: rootReducer,
 });

@@ -1,17 +1,27 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { setPageTitle } from '../../store/themeConfigSlice';
+import { FaPlus } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Gap from '../../components/gap';
+import Modal from '../../components/modal';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const AccountSetting = () => {
     const dispatch = useDispatch();
+    const [tabs, setTabs] = useState<string>('home');
+    const [modalStatus, setModalStatus] = useState<boolean>(true);
+    
     useEffect(() => {
         dispatch(setPageTitle('Account Setting'));
     });
-    const [tabs, setTabs] = useState<string>('home');
+    
     const toggleTabs = (name: string) => {
         setTabs(name);
     };
+
+    const handleClose = () => {
+        setModalStatus(false)
+    }
 
     return (
         <div>
@@ -22,12 +32,15 @@ const AccountSetting = () => {
                     </Link>
                 </li>
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>Account Settings</span>
+                    <span>Account Shop Settings</span>
                 </li>
             </ul>
             <div className="pt-5">
                 <div className="flex items-center justify-between mb-5">
                     <h5 className="font-semibold text-lg dark:text-white-light">Settings</h5>
+                </div>
+                <div className='w-max h-max flex items-center justify-between px-5 py-2 bg-blue-500 absolute right-6 active:scale-[0.98] transition-100 hover:brightness-[94%] text-white font-normal cursor-pointer rounded-md shadow-md'>
+                    Create Shop <FaPlus className='ml-3' />
                 </div>
                 <div>
                     <ul className="sm:flex font-semibold border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 whitespace-nowrap overflow-y-auto">
@@ -50,7 +63,8 @@ const AccountSetting = () => {
                         </li>
                     </ul>
                 </div>
-                {tabs === 'home' ? (
+
+                {/* {tabs === 'home' ? (
                     <div>
                         <form className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                             <h6 className="text-lg font-bold mb-5">General Information</h6>
@@ -155,7 +169,22 @@ const AccountSetting = () => {
                     </div>
                 ) : (
                     ''
-                )}
+                )} */}
+
+                {
+                    modalStatus ? (
+                        <Modal isOpen={modalStatus} onClose={handleClose} title='Create Shop'>
+                            
+                        </Modal>
+                    ):
+                    <></>
+                }
+
+                <p className='font-bold text-[32px] text-black text-center my-[30vh]'>
+                    🏪
+                    <Gap />
+                    You haven't created a shop yet
+                </p>
             </div>
         </div>
     );

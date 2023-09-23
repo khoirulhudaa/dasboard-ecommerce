@@ -10,6 +10,25 @@
     --animate-delay: 1s;
     --animate-repeat: 1;
 }
+
+.animate-fadeInDown2 {
+    animation: fadeInDown .5s ease-out;
+}
+
+@keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeInDown {
+    animation: fadeInDown 0.5s ease-in-out;
+  }
 .animate__animated {
     -webkit-animation-duration: 1s;
     animation-duration: 1s;

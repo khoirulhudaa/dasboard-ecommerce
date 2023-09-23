@@ -45,7 +45,7 @@
         "react-dom": "^18.2.0",
         "react-export-table-to-excel": "^1.0.6",
         "react-flatpickr": "^3.10.13",
-        "react-icons": "^4.10.1",
+        "react-icons": "^4.11.0",
         "react-images-uploading": "^3.1.7",
         "react-popper": "^2.3.0",
         "react-quill": "^2.0.0",
@@ -56,8 +56,9 @@
         "react-simplemde-editor": "^5.2.0",
         "react-sortablejs": "^6.1.4",
         "react-text-mask": "^5.5.0",
+        "react-transition-group": "^4.4.5",
         "sortablejs": "^1.15.0",
-        "sweetalert2": "^11.6.8",
+        "sweetalert2": "^11.7.28",
         "sweetalert2-react-content": "^5.0.7",
         "swiper": "^8.4.4",
         "swr": "^2.2.2",
@@ -66,7 +67,7 @@
         "yup": "^1.2.0"
     },
     "devDependencies": {
-        "@headlessui/react": "^1.7.3",
+        "@headlessui/react": "^1.7.17",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/line-clamp": "^0.4.2",
         "@tailwindcss/typography": "^0.5.7",
