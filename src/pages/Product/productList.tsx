@@ -1,9 +1,9 @@
+import sortBy from 'lodash/sortBy';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import sortBy from 'lodash/sortBy';
+import { FaInfoCircle, FaTrash } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { FaInfoCircle, FaTrash } from 'react-icons/fa';
 const rowData = [
     {
         id: 1,
