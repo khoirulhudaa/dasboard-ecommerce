@@ -3,9 +3,9 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { signSellerInterface } from '../interfaces/signSellerInterface';
-import API from '../services/api';
-import { authSignIn } from '../store/authSlice';
+import { signSellerInterface } from '../../interfaces/signSellerInterface';
+import API from '../../services/api';
+import { authSignIn, saveToken } from '../../store/authSlice';
 
 
 export const useLoginFormik = ({onError}: {onError: any}) => {
@@ -29,6 +29,7 @@ export const useLoginFormik = ({onError}: {onError: any}) => {
             try {
                 const response: AxiosResponse = await API.checkAccountSeller(values)
                 dispatch(authSignIn(response.data))
+                dispatch(saveToken(response.data.token))
                 onError("")
                 if(response.data.status === 200) {
                     formik.setValues({

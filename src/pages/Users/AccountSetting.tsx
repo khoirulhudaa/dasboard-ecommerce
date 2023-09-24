@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Gap from '../../components/gap';
 import Modal from '../../components/modal';
 import { setPageTitle } from '../../store/themeConfigSlice';
+import InputField from '../../components/inputField';
 
 const AccountSetting = () => {
     const dispatch = useDispatch();
@@ -174,7 +175,13 @@ const AccountSetting = () => {
                 {
                     modalStatus ? (
                         <Modal isOpen={modalStatus} onClose={handleClose} title='Create Shop'>
-                            
+                            <div className='w-full p-5'>
+                                <div>
+                                    <InputField 
+                                        name='seller_name'
+                                    />
+                                </div>
+                            </div>
                         </Modal>
                     ):
                     <></>

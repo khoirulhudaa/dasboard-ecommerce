@@ -1,3 +1,4 @@
+import { shopInterface } from "../interfaces/shopInterface";
 import { signSellerInterface } from "../interfaces/signSellerInterface";
 import api from './axios'
 
@@ -32,7 +33,9 @@ const API = {
 
 
     // shop
-
+    createShop: (body: shopInterface) => {
+        return api.post('/shop', body)
+    }
 
     // history
 }

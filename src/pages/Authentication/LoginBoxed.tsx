@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import InputField from '../../components/inputField';
-import { useLoginFormik } from '../../utils/validationLogin';
+import { useLoginFormik } from '../../utils/validations/validationLogin';
 
 const LoginBoxed = () => {
     

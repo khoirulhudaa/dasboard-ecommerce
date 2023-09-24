@@ -16,14 +16,26 @@ import router from './router/index';
 
 // Redux
 import { Provider } from 'react-redux';
-import store from './store/index';
+import { PersistGate } from 'redux-persist/integration/react';
+import store, { peristor } from './store/store';
 
+const Loading = () => {
+    return (
+        <div className='fixed left-0 top-0 w-screen h-screen bg-white text-blac flex items-center justify-center text-[16px] font-normal z-[9999999999999999]'>
+            Loading....
+        </div>
+    )
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <Suspense>
             <Provider store={store}>
-                <RouterProvider router={router} />
+                <PersistGate loading={null} persistor={peristor}>
+                    <Suspense fallback={<Loading />}>
+                        <RouterProvider router={router} />
+                    </Suspense>
+                </PersistGate>
             </Provider>
         </Suspense>
     </React.StrictMode>

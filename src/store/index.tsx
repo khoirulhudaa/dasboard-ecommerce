@@ -1,4 +1,5 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+// reducers/index.js
+import { combineReducers } from '@reduxjs/toolkit';
 import themeConfigSlice from './themeConfigSlice';
 import authSlice from './authSlice';
 import productSlice from './productSlice';
@@ -11,10 +12,4 @@ const rootReducer = combineReducers({
     shopSlice
 });
 
-const rootRedurecers = combineReducers({})
-
-export default configureStore({
-    reducer: rootReducer,
-});
-
-export type IRootState = ReturnType<typeof rootReducer>;
+export default rootReducer;

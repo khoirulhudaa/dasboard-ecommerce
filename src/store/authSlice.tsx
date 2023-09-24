@@ -3,7 +3,7 @@ import { authInterface } from "../interfaces/authInterface";
 
 interface authStates {
     auth: authInterface,
-    token: String
+    token: string
 }
 
 const initialState: authStates = {
@@ -32,7 +32,7 @@ const authSlice = createSlice({
             state.auth = initialState.auth;
             state.token = ""
         },
-        saveToken: (state, action:PayloadAction<String>) => {
+        saveToken: (state, action:PayloadAction<string>) => {
             state.token = action.payload
         }
     }
