@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { IRootState } from '../../store';
-import { authSignOut } from '../../store/authSlice';
 import { toggleSidebar } from '../../store/themeConfigSlice';
+import { clearProducts } from '../../store/productSlice';
+import { authSignOut } from '../../store/authSlice';
 
 const Sidebar = () => {
 
@@ -16,8 +16,9 @@ const Sidebar = () => {
     const [errorSubMenu, setErrorSubMenu] = useState(false);
     const [error, setError] = useState("");
 
-    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-    const semidark = useSelector((state: IRootState) => state.themeConfig.semidark);
+    const themeConfig = useSelector((state: any) => state.themeConfig);
+    const semidark = useSelector((state: any) => state.themeConfig.semidark);
+
     const location = useLocation();
     const { t } = useTranslation();
     const toggleMenu = (value: string) => {
@@ -55,10 +56,9 @@ const Sidebar = () => {
     const logOut = async (e: any) => {
         e.preventDefault()
         try {
-            const response = await dispatch(authSignOut())
-            navigate('/auth/boxed-signin')
-
-            console.log('response', response)
+            const clearAuth = dispatch(authSignOut())
+            const clearProduct = dispatch(clearProducts())
+            if(clearProduct && clearAuth ) navigate('/auth/boxed-signin')
         } catch (error: any) {
             setError(error)
         }

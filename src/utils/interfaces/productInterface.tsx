@@ -5,9 +5,11 @@ export interface productInterface {
     product_color?: string,
     product_description?: string,
     product_image?: string,
-    product_price?: string,
+    product_price?: number,
     product_brand?: string,
     product_size?: string,
     product_category?: string,
-    quantity?: number
+    quantity?: number,
+    shop_id?: string,
+    _id?: string
 }

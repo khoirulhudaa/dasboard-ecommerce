@@ -1,38 +1,45 @@
-import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../assets/css/animate.css';
 import API from '../services/api';
 import { getProduct } from '../store/productSlice';
-import '../assets/css/animate.css'
+import { AxiosResponse } from 'axios';
 
 const Finance = () => {
     const dispatch = useDispatch();
     const [alertStatus, setAlertStatus] = useState(true)
     const [alertMessage, setAlertMessage] = useState("")
+    const [dataProducts, setDataProducts] = useState<any[]>([])
+    const [dataFetch, setDataFetch] = useState<boolean>(false)
 
     const products = useSelector((state: any) => state.productSlice.products)
     console.log('products', products)
-
+    
     const token = useSelector((state: any) => state.authSlice.token)
     console.log('token', token)
 
     useEffect(() => {
-
+        setDataProducts(products)
         const getHistory = async () => {
             try {
                 const response: AxiosResponse = await API.getAllProduct()
                 dispatch(getProduct(response.data))
+                setDataProducts(response.data)
+                setDataFetch(true)
             } catch (error: any) {
+                console.log("error products", error.message)
                 setAlertMessage(error.message)
-                setAlertStatus(true)
             }
         }
 
-        getHistory()
+        if (products.length === 0 && !dataFetch) {
+            // Panggil getHistory hanya jika products kosong dan dataFetch adalah false
+            getHistory();
+        }
 
-    }, [products]);
+    }, [dataProducts, dataFetch, dispatch]);
 
     const handleCloseAlert = (status: boolean) => {
         setAlertStatus(status)
@@ -68,7 +75,7 @@ const Finance = () => {
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Products</div>
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {products[0]?.data?.length ?? 0} items</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataProducts && dataProducts.length > 0 ? dataProducts[0]?.data?.length : 0} items</div>
                         </div>
                         <div className="flex items-center font-semibold mt-5">
                             Existing product info

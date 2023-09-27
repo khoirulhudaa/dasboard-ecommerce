@@ -15,8 +15,8 @@ const InputField = ({
   onTouched
 }: {
   label?: string,
-  onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void,
-  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void,
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
   value?: any,
   placeholder?: string,
   type?: string,
@@ -28,29 +28,6 @@ const InputField = ({
   onTouched?: boolean | undefined
 }) => {
   switch (typeInput) {
-    case 'numeric':
-      return (
-        <>
-          <label htmlFor={id}>{label}</label>
-          <input
-            id={id}
-            type={type}
-            name={name}
-            value={value}
-            onChange={onChange}
-            onBlur={onBlur}
-            className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''}`} // Tambahkan kelas sesuai kondisi yang sesuai
-            placeholder={placeholder}
-          />
-            {
-                onError && onTouched ? (
-                    <small className='text-[red] text-[12px] font-normal my-2'>
-                        {onError}
-                    </small>
-                ): null
-            }
-        </>
-      );
       case "select-input":
           return (
               <>
@@ -78,6 +55,30 @@ const InputField = ({
                     ): null
                 }
             </>
+        )
+    case "textarea-input":
+        return (
+            <>
+            <label htmlFor={id}>{label}</label>
+            <textarea
+                id={id}
+                name={name}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                style={{ height: '80px' }}
+                className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''}`} // Tambahkan kelas sesuai kondisi yang sesuai
+                placeholder={placeholder}
+            >
+            </textarea>
+            {
+                onError && onTouched ? (
+                    <small className='text-[red] text-[12px] font-normal my-2'>
+                        {onError}
+                    </small>
+                ): null
+            }
+          </>
         )
     default:
       return (

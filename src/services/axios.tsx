@@ -1,4 +1,5 @@
 import axios from "axios";
+import Redirecter from "../helpers/redirecter";
 import store from "../store/store";
 
 const api = axios.create({
@@ -31,12 +32,12 @@ api.interceptors.request.use(function (config) {
 
 // Tambahkan interceptor respons
 api.interceptors.response.use(function (response) {
-  console.log('error 401:', response)
-  return response;
+  console.log('response interceptors:', response)
+  return response
 }, function (error) {
-  console.log('error 401:', error)
-  if (error.response && error.response.status === 401) {
-    return Promise.reject(error);
+  console.log('error interceptors:', error)
+  if (error.response && error.response.status === 403) {
+    return <Redirecter route="/auth/boxed-signin" status={true} /> 
   }
 });
 

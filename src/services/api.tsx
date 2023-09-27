@@ -1,5 +1,5 @@
-import { shopInterface } from "../interfaces/shopInterface";
-import { signSellerInterface } from "../interfaces/signSellerInterface";
+import { shopInterface } from "../utils/interfaces/shopInterface";
+import { signSellerInterface } from "../utils/interfaces/signSellerInterface";
 import api from './axios'
 
 const API = {

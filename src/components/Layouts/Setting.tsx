@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../../store';
 import { toggleAnimation, toggleLayout, toggleMenu, toggleNavbar, toggleRTL, toggleTheme, toggleSemidark } from '../../store/themeConfigSlice';
 
 const Setting = () => {
-    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
+    const themeConfig = useSelector((state: any) => state.themeConfig);
     const dispatch = useDispatch();
 
     const [showCustomizer, setShowCustomizer] = useState(false);

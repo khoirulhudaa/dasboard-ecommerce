@@ -21,11 +21,11 @@ const productReducers = createSlice({
                 state.products.push(action.payload);
             }
         },
-        removeProduct: (state, action: PayloadAction<string>) => {
-            state.products = state.products.filter(product => product.product_name !== action.payload);
+        removeProduct: (state, action: PayloadAction<productInterface>) => {
+            state.products = state.products.filter(product => product.product_name !== action.payload.product_name);
         },
         clearProducts: (state) => {
-            state.products = [];
+            state.products = initialState.products;
         },
     }
 })

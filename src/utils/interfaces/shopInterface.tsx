@@ -4,7 +4,7 @@ export interface shopInterface {
     shop_name?: string,
     password?: string,
     shop_address?: string,
-    image_shop?: string,
+    image_shop?: null,
     motto_shop?: string,
     description_shop?: string,
     telephone_seller?: string,

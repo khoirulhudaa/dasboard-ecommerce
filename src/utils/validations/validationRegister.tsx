@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { signSellerInterface } from '../../interfaces/signSellerInterface';
+import { signSellerInterface } from '../interfaces/signSellerInterface';
 import API from '../../services/api';
 
 export const useRegistrationFormik = ({onError, onAlert}: {onError: any, onAlert: any}) => {

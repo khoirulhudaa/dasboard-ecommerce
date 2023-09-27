@@ -29,8 +29,8 @@ const authSlice = createSlice({
             }
         },
         authSignOut: (state) => {
-            state.auth = initialState.auth;
-            state.token = ""
+            state.auth = initialState.auth,
+            state.token = initialState.token
         },
         saveToken: (state, action:PayloadAction<string>) => {
             state.token = action.payload

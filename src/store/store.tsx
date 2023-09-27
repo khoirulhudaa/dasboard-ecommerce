@@ -13,7 +13,7 @@ const persistReducers = persistReducer(persistConfig, Reducers)
 
 export const store = configureStore({
     reducer: persistReducers,
-    middleware: [...getDefaultMiddleware({ serializableCheck: false }), thunk],
+    middleware: [thunk],
 })
 
 export const peristor = persistStore(store)

@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import InputField from '../../components/inputField';
 import { useLoginFormik } from '../../utils/validations/validationLogin';
+import { useDispatch } from 'react-redux';
+import { authSignOut } from '../../store/authSlice';
+import { clearProducts } from '../../store/productSlice';
 
 const LoginBoxed = () => {
     
     const [errorStatus, setErrorStatus] = useState("")
+    const dispatch = useDispatch()
     
+    useEffect(() => {
+        dispatch(authSignOut())
+        dispatch(clearProducts())
+    }, [])
+
     const handleError = (error: string) => {
         setErrorStatus(error)
     }

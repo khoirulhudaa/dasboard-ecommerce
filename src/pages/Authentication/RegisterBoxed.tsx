@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import SweetAlert from '../../components/alert';
+import SweetAlert from '../../components/alertBox';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { useRegistrationFormik } from '../../utils/validationRegister';
+import { useRegistrationFormik } from '../../utils/validations/validationRegister';
 import InputField from '../../components/inputField';
 
 const RegisterBoxed = () => {
