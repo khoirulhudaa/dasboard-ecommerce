@@ -36,7 +36,7 @@ api.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   console.log('error interceptors:', error)
-  if (error.response && error.response.status === 403) {
+  if (error.response && error.response.status === 401) {
     return <Redirecter route="/auth/boxed-signin" status={true} /> 
   }
 });

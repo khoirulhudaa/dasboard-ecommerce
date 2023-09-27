@@ -57,7 +57,6 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
                 if(abortSignal.aborted) return
 
                 const dataAuth:any = store.getState()
-                console.log('auth:', dataAuth.authSlice)
                 const data = {
                     email_seller: dataAuth?.authSlice?.auth?.data?.email_seller,
                     password: dataAuth?.authSlice?.auth?.data?.email_seller,
@@ -69,8 +68,6 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
                     ...values,
                     ...data
                 }
-
-                console.log('data obj:', mergedObj)
 
                 const response = await API.createShop(mergedObj)
                 
