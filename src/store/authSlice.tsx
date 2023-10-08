@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authInterface } from "../interfaces/authInterface";
+import { authInterface } from "../utils/interfaces/authInterface";
 
 interface authStates {
     auth: authInterface,

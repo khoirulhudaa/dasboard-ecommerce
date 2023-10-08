@@ -31,10 +31,15 @@ const API = {
         return api.get('/profileAccount')
     },
 
-
     // shop
     createShop: (body: shopInterface) => {
         return api.post('/shop', body)
+    },
+    getShopById: (id?: string) => {
+        return api.get(`/shop/${id}`)
+    },
+    removeShopById: (id: string) => {
+        return api.post(`/shop/${id}`)
     }
 
     // history

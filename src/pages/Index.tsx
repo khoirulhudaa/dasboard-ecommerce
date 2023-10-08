@@ -17,6 +17,9 @@ const Finance = () => {
     const products = useSelector((state: any) => state.productSlice.products)
     console.log('products', products)
     
+    const auth = useSelector((state: any) => state.authSlice.auth)
+    console.log('auth', auth)
+    
     const token = useSelector((state: any) => state.authSlice.token)
     console.log('token', token)
 

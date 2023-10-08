@@ -8,6 +8,8 @@ import { setPageTitle } from '../../store/themeConfigSlice';
 import InputField from '../../components/inputField';
 import useShopFormik from '../../utils/validations/validationShop';
 import Button from '../../components/button';
+import { AxiosResponse } from 'axios';
+import API from '../../services/api';
 
 const AccountSetting = () => {
     const dispatch = useDispatch();
@@ -15,10 +17,23 @@ const AccountSetting = () => {
     const [modalStatus, setModalStatus] = useState<boolean>(false);
     const [errorStatus, setErrorStatus] = useState<string>("");
     const [responseShop, setResponseShop] = useState<string>("");
+    const [statusGet, setStatusGet] = useState<boolean>(false);
     
     useEffect(() => {
         dispatch(setPageTitle('Account Setting'));
-    });
+        const getDataShop = async () => {
+            try {
+                const dataShop: AxiosResponse = await API.getShopById() 
+                console.log(dataShop)
+                setStatusGet(true)
+            } catch (error: any) {
+                console.log(error.message)
+            }
+        }
+
+        getDataShop()
+
+    }, [statusGet, dispatch]);
     
     const toggleTabs = (name: string) => {
         setTabs(name);
@@ -29,7 +44,7 @@ const AccountSetting = () => {
     }
 
     const handleError = (error: any) => {
-        setErrorStatus(error)
+        setErrorStatus(error.message)
     }
 
     const handleResponse = (response: any) => {
@@ -53,11 +68,6 @@ const AccountSetting = () => {
                 ):
                     <></>
             }
-            {responseShop && (
-                <div className="text-green-500">
-                    {responseShop} {/* Tampilkan respons yang diterima */}
-                </div>
-            )}
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <li>
                     <Link to="#" className="text-primary hover:underline">
@@ -97,7 +107,7 @@ const AccountSetting = () => {
                     </ul>
                 </div>
 
-                {/* {tabs === 'home' ? (
+                {tabs === 'home' ? (
                     <div>
                         <form className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                             <h6 className="text-lg font-bold mb-5">General Information</h6>
@@ -201,14 +211,20 @@ const AccountSetting = () => {
                         </form>
                     </div>
                 ) : (
-                    ''
-                )} */}
+                    <div className='font-bold text-[32px] text-black text-center my-[30vh]'>
+                        🏪
+                        <Gap />
+                        <p>
+                            You haven't created a shop yet
+                        </p>
+                    </div>
+                )}
 
                 {
                     modalStatus ? (
                         <Modal size="sm" isOpen={modalStatus} onClose={handleClose} onClick={formik.handleSubmit} title='Create Shop'>
                             <div className='w-full'>
-                                <form onSubmit={formik.handleSubmit} encType='multipart/form-data'>
+                                <form onSubmit={formik.handleSubmit}>
                                     <div className='w-full pt-8'>
                                         <div className="mb-5">
                                             <InputField 
@@ -281,19 +297,20 @@ const AccountSetting = () => {
                                             <InputField
                                                 type="file"
                                                 id="image_shop"
+                                                label="Logo Shop"
                                                 name="image_shop"
                                                 onError={formik.errors.image_shop}
                                                 onTouched={!!formik.touched.image_shop}
+                                                onBlur={formik.handleBlur}
                                                 onChange={(event: any) => {
                                                     // Menggunakan event.target.files[0] untuk mendapatkan objek File
                                                     formik.setFieldValue("image_shop", event.target.files[0]);
                                                 }}
-                                                onBlur={formik.handleBlur}
                                             />
                                         </div>
                                         <div className='w-full flex items-center'>
-                                            <button type='submit'>send</button>
-                                            {/* <Button type="submit" text='Send' onClick={() => formik.handleSubmit} /> */}
+                                            {/* <button type='submit'>send</button> */}
+                                            <Button type="submit" text='Send' />
                                             <div className='ml-5'>
                                                 <Button typeButton='outline' text='Close' onClick={handleClose} />
                                             </div>
@@ -305,14 +322,6 @@ const AccountSetting = () => {
                     ):
                     <></>
                 }
-
-                <div className='font-bold text-[32px] text-black text-center my-[30vh]'>
-                    🏪
-                    <Gap />
-                    <p>
-                        You haven't created a shop yet
-                    </p>
-                </div>
             </div>
         </div>
     );

@@ -1,25 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface shopInterface {
-    shop_id: String,
-    seller_name: String,
-    shop_name: String,
-    motto_shop: String,
-    email_seller: String,
-    password: String,
-    shop_address: String,
-    image_shop: String,
-    description_shop: String,
-    telephone_seller: String,
-    followers: Number
-}
+import { shopInterface } from "../utils/interfaces/shopInterface";
 
 interface shopStates {
-    shopDatas: shopInterface
+    shop: shopInterface
 }
 
 const initialState: shopStates = {
-    shopDatas: {
+    shop: {
         shop_id: "",
         seller_name: "",
         shop_name: "",
@@ -27,7 +14,7 @@ const initialState: shopStates = {
         email_seller: "",
         password: "",
         shop_address: "",
-        image_shop: "",
+        image_shop: null,
         description_shop: "",
         telephone_seller: "",
         followers: 0 // Ini adalah angka, bukan string
@@ -38,14 +25,14 @@ const shopSlice = createSlice({
     name: 'shop',
     initialState,
     reducers: {
-        getShop: (state, action: PayloadAction<shopInterface>) => {
-            state.shopDatas = {
-                ...state.shopDatas,
+        getShopById: (state, action: PayloadAction<shopInterface>) => {
+            state.shop = {
+                ...state.shop,
                 ...action.payload
             };
         }
     }
 })
 
-export const { getShop } = shopSlice.actions
+export const { getShopById } = shopSlice.actions
 export default shopSlice.reducer

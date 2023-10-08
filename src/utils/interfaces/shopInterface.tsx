@@ -1,4 +1,5 @@
 export interface shopInterface {
+    shop_id: string,
     seller_name?: string,
     email_seller?: string,
     shop_name?: string,
