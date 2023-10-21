@@ -8,16 +8,16 @@ interface shopStates {
 const initialState: shopStates = {
     shop: {
         shop_id: "",
+        seller_id: "",
         seller_name: "",
         shop_name: "",
-        motto_shop: "",
         email_seller: "",
-        password: "",
         shop_address: "",
         image_shop: null,
+        motto_shop: "",
         description_shop: "",
         telephone_seller: "",
-        followers: 0 // Ini adalah angka, bukan string
+        followers: 0 
     }
 }
 
@@ -27,12 +27,15 @@ const shopSlice = createSlice({
     reducers: {
         getShopById: (state, action: PayloadAction<shopInterface>) => {
             state.shop = {
-                ...state.shop,
+                   ...state.shop,
                 ...action.payload
             };
+        },
+        clearShop: (state) => {
+            state.shop = initialState.shop
         }
     }
 })
 
-export const { getShopById } = shopSlice.actions
+export const { getShopById, clearShop } = shopSlice.actions
 export default shopSlice.reducer

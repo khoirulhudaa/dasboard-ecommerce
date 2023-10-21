@@ -26,7 +26,7 @@ const authSlice = createSlice({
             state.auth = {
                 ...state.auth,
                 ...action.payload
-            }
+            }   
         },
         authSignOut: (state) => {
             state.auth = initialState.auth,

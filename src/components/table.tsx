@@ -3,7 +3,13 @@ import { useReactTable, flexRender, getCoreRowModel, getPaginationRowModel, getS
 import datas from './data.json';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
-const Table = () => {
+const Table = ({
+  columns,
+  dataTable
+}: {
+  columns: Array<any>,
+  dataTable: Array<any>
+}) => {
 
   const [sorting, setSorting] = useState([])
   useEffect(() => {
@@ -16,29 +22,7 @@ const Table = () => {
     });
   }, [])
 
-  const data = useMemo(() => datas, []);
-  const columns = [
-    {
-      header: 'ID',
-      accessorKey: 'id',
-      footer: 'ID',
-    },
-    {
-      header: 'Name',
-      accessorFn: (row: {first_name: string, last_name: string}) => `${row.first_name} ${row.last_name}`,
-      footer: 'Name',
-    },
-    {
-      header: 'Gender',
-      accessorKey: 'gender',
-      footer: 'Gender',
-    },
-    {
-      header: 'IP',
-      accessorKey: 'ip_address',
-      footer: 'IP',
-    },
-  ];
+  const data = useMemo(() => dataTable, []);
 
   const table = useReactTable({
     data,

@@ -5,6 +5,7 @@ import { useLoginFormik } from '../../utils/validations/validationLogin';
 import { useDispatch } from 'react-redux';
 import { authSignOut } from '../../store/authSlice';
 import { clearProducts } from '../../store/productSlice';
+import { clearShop } from '../../store/shopSlice';
 
 const LoginBoxed = () => {
     
@@ -14,6 +15,7 @@ const LoginBoxed = () => {
     useEffect(() => {
         dispatch(authSignOut())
         dispatch(clearProducts())
+        dispatch(clearShop())
     }, [])
 
     const handleError = (error: string) => {

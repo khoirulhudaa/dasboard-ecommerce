@@ -6,12 +6,15 @@ import '../assets/css/animate.css';
 import API from '../services/api';
 import { getProduct } from '../store/productSlice';
 import { AxiosResponse } from 'axios';
+import { getShopById } from '../store/shopSlice';
+import store from '../store/store';
 
 const Finance = () => {
     const dispatch = useDispatch();
     const [alertStatus, setAlertStatus] = useState(true)
     const [alertMessage, setAlertMessage] = useState("")
     const [dataProducts, setDataProducts] = useState<any[]>([])
+    const [dataShop, setDataShop] = useState<any[]>([])
     const [dataFetch, setDataFetch] = useState<boolean>(false)
 
     const products = useSelector((state: any) => state.productSlice.products)
@@ -20,14 +23,18 @@ const Finance = () => {
     const auth = useSelector((state: any) => state.authSlice.auth)
     console.log('auth', auth)
     
-    const token = useSelector((state: any) => state.authSlice.token)
-    console.log('token', token)
+    const shop = useSelector((state: any) => state.shopSlice.shop)
+    console.log('shop', shop)
 
     useEffect(() => {
+        const currentShop = store.getState().shopSlice.shop;
         setDataProducts(products)
+        setDataShop(shop)
         const getHistory = async () => {
             try {
                 const response: AxiosResponse = await API.getAllProduct()
+                const responseShop = await API.getShopById(auth.data.seller_id)
+                dispatch(getShopById(responseShop.data.data))
                 dispatch(getProduct(response.data))
                 setDataProducts(response.data)
                 setDataFetch(true)
@@ -37,12 +44,13 @@ const Finance = () => {
             }
         }
 
-        if (products.length === 0 && !dataFetch) {
-            // Panggil getHistory hanya jika products kosong dan dataFetch adalah false
+        if (shop.length === 0 && !dataFetch || products.length === 0 && !dataFetch) {
             getHistory();
         }
 
-    }, [dataProducts, dataFetch, dispatch]);
+        console.log('data shop:', dataShop)
+
+    }, [dataFetch, dataShop, shop, dataProducts, dataFetch, dispatch]);
 
     const handleCloseAlert = (status: boolean) => {
         setAlertStatus(status)
@@ -104,7 +112,7 @@ const Finance = () => {
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Followers</div>
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 50 users</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataShop?.length ?? 0} users</div>
                         </div>
                         <div className="flex items-center font-semibold mt-5">
                             Existing product info

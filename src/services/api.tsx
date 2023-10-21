@@ -35,11 +35,14 @@ const API = {
     createShop: (body: shopInterface) => {
         return api.post('/shop', body)
     },
-    getShopById: (id?: string) => {
-        return api.get(`/shop/${id}`)
+    getShopById: (seller_id?: string) => {
+        return api.get(`/shop/${seller_id}`)
     },
-    removeShopById: (id: string) => {
-        return api.post(`/shop/${id}`)
+    updateShopById: ({shop_id, body}:{shop_id: string, body: shopInterface}) => {
+        return api.post(`/shop/${shop_id}`, body)
+    },
+    removeShopById: (shop_id: string) => {
+        return api.delete(`/shop/${shop_id}`)
     }
 
     // history

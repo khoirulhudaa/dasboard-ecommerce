@@ -12,7 +12,8 @@ const InputField = ({
   typeInput,
   options,
   onError,
-  onTouched
+  onTouched,
+  disabled
 }: {
   label?: string,
   onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
@@ -25,7 +26,8 @@ const InputField = ({
   typeInput?: string,
   options?: { label: string, value: string }[],
   onError?: string | undefined,
-  onTouched?: boolean | undefined
+  onTouched?: boolean | undefined,
+  disabled?: boolean
 }) => {
   switch (typeInput) {
       case "select-input":
@@ -34,8 +36,9 @@ const InputField = ({
                 <label htmlFor={id}>{label}</label>
                 <select 
                     id={id}
+                    disabled={disabled}
                     name={name} 
-                    className={`w-[100%] rounded-md bg-white outline-0 border-[1px] p-2 box-sizing ${onError && onTouched ? 'border-red-500 text-[red]' : ''}`} 
+                    className={`w-[100%] rounded-md bg-white outline-0 border-[1px] p-2 box-sizing ${onError && onTouched ? 'border-red-500 text-[red]' : ''}${disabled ? 'bg-gray-100' : '' }`} 
                     value={value} 
                     onChange={onChange}
                     onBlur={onBlur}>
@@ -63,11 +66,12 @@ const InputField = ({
             <textarea
                 id={id}
                 name={name}
+                disabled={disabled}
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
                 style={{ height: '80px' }}
-                className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''}`} // Tambahkan kelas sesuai kondisi yang sesuai
+                className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''}${disabled ? 'bg-gray-100' : '' }`} // Tambahkan kelas sesuai kondisi yang sesuai
                 placeholder={placeholder}
             >
             </textarea>
@@ -88,10 +92,11 @@ const InputField = ({
                 id={id}
                 type={type}
                 name={name}
+                disabled={disabled}
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
-                className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''}`} // Tambahkan kelas sesuai kondisi yang sesuai
+                className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''} ${disabled ? 'bg-gray-100' : '' }`} // Tambahkan kelas sesuai kondisi yang sesuai
                 placeholder={placeholder}
             />
             {

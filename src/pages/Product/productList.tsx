@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Table from '../../components/table';
+import data from './data.json'
 
 const AltPagination = () => {
 
@@ -8,6 +9,29 @@ const AltPagination = () => {
     useEffect(() => {
       
     }, [search]);
+
+    const columns = [
+        {
+          header: 'ID',
+          accessorKey: 'id',
+          footer: 'ID',
+        },
+        {
+          header: 'Name',
+          accessorFn: (row: {first_name: string, last_name: string}) => `${row.first_name} ${row.last_name}`,
+          footer: 'Name',
+        },
+        {
+          header: 'Gender',
+          accessorKey: 'gender',
+          footer: 'Gender',
+        },
+        {
+          header: 'IP',
+          accessorKey: 'ip_address',
+          footer: 'IP',
+        },
+    ];
 
     return (
         <div className="panel">
@@ -18,7 +42,7 @@ const AltPagination = () => {
                 </div>
             </div>
             <div className="datatables">
-                <Table />
+                <Table columns={columns} dataTable={data}/>
             </div>
         </div>
     );

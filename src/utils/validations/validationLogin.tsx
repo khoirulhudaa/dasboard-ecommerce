@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { signSellerInterface } from '../../interfaces/signSellerInterface';
+import { signSellerInterface } from '../interfaces/signSellerInterface';
 import API from '../../services/api';
 import { authSignIn, saveToken } from '../../store/authSlice';
 
@@ -42,7 +42,7 @@ export const useLoginFormik = ({onError}: {onError: any}) => {
                     onError(response.data.message)
                 }
             } catch (error: any) {
-                onError(error.message)
+                onError(error.response.data.message)
             }
         }
     })

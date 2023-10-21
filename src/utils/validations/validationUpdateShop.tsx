@@ -4,20 +4,25 @@ import API from "../../services/api";
 import store from "../../store/store";
 import { shopInterface } from "../interfaces/shopInterface";
 
-const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }) => {
+const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }) => {
 
     const abortController = new AbortController()
     const abortSignal = abortController.signal
-
+    
+    const dataShopNow: any = store.getState().shopSlice.shop
+    // console.log('okok', dataShopNow)
+    
     const formik = useFormik<shopInterface>({
         initialValues: {
-            seller_name: '',
-            shop_name: '',
-            shop_address: '',
+            seller_name: dataShopNow[0]?.seller_name || '',
+            shop_name: dataShopNow[0]?.shop_name || '',
+            shop_address: dataShopNow[0]?.shop_address || '',
             image_shop: null,
-            motto_shop: '',
-            description_shop: '',
-        },
+            motto_shop: dataShopNow[0]?.motto_shop || '',
+            telephone_seller: dataShopNow[0]?.telephone_seller || '',
+            description_shop: dataShopNow[0]?.description_shop || '',
+            followers: dataShopNow[0]?.followers || 0
+        },  
         validationSchema: Yup.object({
             seller_name: Yup.string()
             .required('This field is required.')
@@ -30,7 +35,6 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
             .min(12, 'Must be at least 12 characters')
             .max(100, 'Maximum only 100 characters'),
             image_shop: Yup.mixed()
-            .required('This field is required.')
             .test('fileType', 'Only JPG and PNG', (value: any) => {
                 if (!value) return true; // Izinkan input berkas kosong (opsional)
                 const supportedFormats = ['image/jpeg', 'image/png'];
@@ -41,7 +45,8 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
             .test('fileSize', 'Maximal size is 2MB.', (value: any) => {
                 if (!value) return true; // Izinkan input berkas kosong (opsional)
                 return value.size <= 2 * 1024 * 1024; // 2MB dalam byte
-            }),
+            })
+            .notRequired(),
             motto_shop: Yup.string()
             .required('This field is required.')
             .min(10, 'Must be at lest 10 characters')
@@ -50,6 +55,10 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
             .required('This field is required.')
             .min(10, 'Must be at lest 10 characters')
             .max(150, 'Maximum only 150 characters'),
+            telephone_seller: Yup.string()
+            .required('This field is required!')
+            .min(10, 'Must be at lest 10 numbers')
+            .max(13, 'Maximum only 13 characters'),
         }),
         onSubmit: async (values: any) => {
             try {
@@ -62,14 +71,15 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
                 formData.append('seller_name', values.seller_name);
                 formData.append('shop_name', values.shop_name);
                 formData.append('seller_id', authData.data.seller_id);
-                formData.append('email_seller', authData.data.email_seller);
-                formData.append('telephone_seller', authData.data.telephone_seller);
+                formData.append('telephone_seller', values.telephone_seller);
                 formData.append('motto_shop', values.motto_shop);
                 formData.append('description_shop', values.description_shop);
                 formData.append('shop_address', values.shop_address);
-                formData.append('image_shop', values.image_shop);
+                if(values.image_shop && values.image_shop !== null) {
+                    formData.append('image_shop', values.image_shop);
+                }
 
-                const response = await API.createShop(formData)
+                const response = await API.updateShopById({ shop_id: dataShopNow[0].shop_id, body: formData });
                 
                 onResponse(response)
                 console.log('response shop:', response)
@@ -84,4 +94,4 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
     return formik
 }
 
-export default useShopFormik
+export default useShopUpdateFormik
