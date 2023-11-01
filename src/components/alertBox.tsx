@@ -1,7 +1,21 @@
 import { useEffect } from 'react';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
-const SweetAlert = ({ title, type, showCancel = true, showConfirm = true }: {title: string, type: string, showCancel?: boolean, showConfirm?: boolean}) => {
+const SweetAlert = ({ 
+  title, 
+  type, 
+  showCancel = true, 
+  showConfirm = true, 
+  confirmBtnText = "Ok", 
+  cancelBtnText = "Cancel" 
+}: {
+  title: string, 
+  type: string, 
+  showCancel?: boolean, 
+  showConfirm?: boolean, 
+  confirmBtnText?: string, 
+  cancelBtnText?: string
+}) => {
   useEffect(() => {
     if (title && type) {
         let icon: SweetAlertIcon | undefined;
@@ -20,8 +34,10 @@ const SweetAlert = ({ title, type, showCancel = true, showConfirm = true }: {tit
       Swal.fire({
         title,
         icon,
-        showCancelButton: showCancel, // Menghapus tombol Batal
-        showConfirmButton: showConfirm, // Menghapus tombol OK
+        showCancelButton: showCancel,
+        showConfirmButton: showConfirm,
+        confirmButtonText: confirmBtnText,
+        cancelButtonText: cancelBtnText,
       });
     }
   }, [title, type]);

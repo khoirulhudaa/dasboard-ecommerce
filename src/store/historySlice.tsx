@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { historyInterface } from "../interfaces/historyInterface";
+import { historyInterface } from "../utils/interfaces/historyInterface";
 
 interface historyState {
     history: historyInterface[]
@@ -9,16 +9,15 @@ const initialState: historyState = {
     history: []
 }
 
-
 const historySlice = createSlice({
     name: 'history',
     initialState,
     reducers: {
-        getHistory: (state, action: PayloadAction<historyInterface>) => {
-            state.history.push(action.payload)
+        getHistoryBuy: (state, action: PayloadAction<historyInterface[]>) => {
+            state.history = action.payload
         }      
     }
 })
 
-export const { getHistory } = historySlice.actions
+export const { getHistoryBuy } = historySlice.actions
 export default historySlice.reducer

@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react';
 import { FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import SweetAlert from '../../components/alertBox';
 import Button from '../../components/button';
 import Gap from '../../components/gap';
 import InputField from '../../components/inputField';
 import Modal from '../../components/modal';
+import { isEqual } from '../../helpers/equal';
 import API from '../../services/api';
 import { clearShop, getShopById } from '../../store/shopSlice';
-import store from '../../store/store';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import useShopFormik from '../../utils/validations/validationShop';
 import useShopUpdateFormik from '../../utils/validations/validationUpdateShop';
-import SweetAlert from '../../components/alertBox';
 
 const AccountSetting = () => {
     const dispatch = useDispatch();
@@ -24,35 +23,28 @@ const AccountSetting = () => {
     const [dataShop, setDataShop] = useState<Record<string, any> | null>(null);
     const [statusForm, setStatusForm] = useState<boolean>(false)
     const [alertStatus, setAlertStatus] = useState<any>(null)
+    const [titleModal, setTitleModal] = useState<string>("")
 
     const shopData = useSelector((state: any) => state.shopSlice.shop)
     const auth = useSelector((state: any) => state.authSlice.auth)
-    console.log('auth2', auth)
-    const currentShop = store.getState().shopSlice.shop;
-
+    
     useEffect(() => {
-        setDataShop(shopData[0])
-        dispatch(setPageTitle('Account Setting'));
         const getDataShop = async () => {
             try {
-                const responseShop = await API.getShopById(auth.data.seller_id)
-                if(responseShop.data.data !== currentShop) {
-                    dispatch(getShopById(responseShop.data.data))
-                }
-                setStatusGet(true)
+                const responseShop = await API.getShopById(auth.seller_id);
+                if(!isEqual(dataShop, shopData[0])) {
+                    dispatch(getShopById(responseShop.data.data));
+                    setStatusGet(true);
+                    setDataShop(shopData[0]);
+                }   
             } catch (error: any) {
-                console.log(error.message)
+                console.log(error.message);
             }
-        }
+        };
         
-        getDataShop()
-        console.log('data tko:', shopData[0])
-
-    }, [statusGet, dispatch]);
-
-    const toggleTabs = (name: string) => {
-        setTabs(name);
-    };
+        getDataShop();
+    }, [shopData[0], dispatch]);
+    
 
     // Close modal
     const handleClose = () => {
@@ -65,32 +57,41 @@ const AccountSetting = () => {
     }
 
     // Handle response success from formik
-    const handleResponse = async (response: any) => {
-        setResponseShop(response)
+    const handleResponse = (response: any) => {
         if(response.data.status === 200) {
-            try {
-                setModalStatus(false)
-                await setAlertStatus(!alertStatus)
-                const responseShop = await API.getShopById(auth.data.seller_id)
-                if(responseShop.data.data !== currentShop) {
-                    dispatch(getShopById(responseShop.data.data))
-                    window.location.reload()
-                }
-                setStatusGet(true)
-            } catch (error: any) {
-                console.log(error.message)
-            }
+            setResponseShop(response)
+            setAlertStatus(true)
+            setTitleModal("create")
+
+            // Mengatur ulang alertStatus menjadi false setelah 2 detik
+            setTimeout(() => {
+                setAlertStatus(false);
+            }, 100);
         }
+    }
+
+    // Handle response success from formik
+    const handleResponseUpdate = (response: any) => {
+        if(response.data.status === 200) {
+            setStatusForm(false)
+            setAlertStatus(true)
+            setTitleModal("update")
+
+            // Mengatur ulang alertStatus menjadi false setelah 2 detik
+            setTimeout(() => {
+                setAlertStatus(false);
+            }, 100);
+        } 
     }
 
     // Delete shop and clearState shop
     const deleleteShop = async (shop_id: string) => {
         const response = await API.removeShopById(shop_id)
-        const responseShop = await API.getShopById(auth.data.seller_id)
+        await API.getShopById(auth.seller_id)
         try {
-            if(!responseShop.data.data.length && response.data.message === "Successfully delete shop") {
+            if(response.data.message === "Successfully delete shop") {
                 dispatch(clearShop()) 
-                window.location.reload()
+                setDataShop(null)
             } 
         } catch (error: any) {
             console.log('error delete:', error)            
@@ -98,20 +99,20 @@ const AccountSetting = () => {
     }
 
     const formik = useShopFormik({ onError: handleError, onResponse: handleResponse })
-    const formikUpdate = useShopUpdateFormik({ onError: handleError, onResponse: handleResponse })
+    const formikUpdate = useShopUpdateFormik({ onError: handleError, onResponse: handleResponseUpdate })
 
     return (
         <div>
             {
                 alertStatus ? (
                     <SweetAlert 
-                        title="Success Create Shop!"
+                        title={`Success ${titleModal} Shop!`}
                         type="success"
-                        showConfirm={false}
+                        showConfirm={true}
                         showCancel={false}
                     />
                 ):
-                <></>
+                null
             }
             {
                 errorStatus && errorStatus !== "" ? (
@@ -148,7 +149,7 @@ const AccountSetting = () => {
                     ):
                     <></>
                 }
-                <div className='w-max h-max flex items-center justify-between px-5 py-2 bg-blue-500 absolute right-6 active:scale-[0.98] transition-100 hover:brightness-[94%] text-white font-normal cursor-pointer rounded-md shadow-md' onClick={() => setModalStatus(true)}>
+                <div className={`w-max h-max flex items-center absolute right-[20px] justify-between px-5 py-2 ${!shopData[0]?.shop_id ? 'bg-blue-500' : 'bg-gray-300'} ${!shopData[0]?.shop_id ? 'active:scale-[0.98]' : ''} transition-100 ${!shopData[0]?.shop_id ? 'hover:brightness-[94%]' : ''} text-white font-normal ${!shopData[0]?.shop_id ? 'cursor-pointer' : 'cursor-not-allowed'} rounded-md shadow-md`} onClick={() => !shopData[0]?.shop_id ? setModalStatus(true) : null}>
                     Create Shop <FaPlus className='ml-3' />
                 </div>
                 <div>
@@ -175,7 +176,7 @@ const AccountSetting = () => {
                 {dataShop ? (
                     <div>
                         <form onSubmit={formikUpdate.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
-                            <h6 className="text-lg font-bold mb-5">General Information</h6>
+                            <h6 className="text-lg font-bold mb-5">Update shop</h6>
                             <div className="flex flex-col sm:flex-row">
                                 <div className="ltr:sm:mr-4 rtl:sm:ml-4 w-full sm:w-2/12 mb-5">
                                     <img src={`https://huda.descode.id/uploads/${dataShop ? dataShop.image_shop : 'default.png'}`} alt="img" className="w-20 h-20 md:w-[135px] md:h-[132px] rounded-full object-contain border-gray-200 border-2 mx-auto" />
@@ -350,7 +351,7 @@ const AccountSetting = () => {
                     modalStatus ? (
                         <Modal size="sm" isOpen={modalStatus} onClose={handleClose} onClick={formik.handleSubmit} title='Create Shop'>
                             <div className='w-full'>
-                                <form onSubmit={formik.handleSubmit}>
+                                <form onSubmit={formik.handleSubmit} encType='multipart/form-data'>
                                     <div className='w-full pt-8'>
                                         <div className="mb-5">
                                             <InputField 
@@ -386,7 +387,7 @@ const AccountSetting = () => {
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.motto_shop}
-                                                id='motto_name'
+                                                id='motto_shop'
                                                 label="Motto"
                                                 placeholder="Motto Your Shop?"
                                             />

@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { IRootState } from '../../store';
-import { toggleTheme } from '../../store/themeConfigSlice';
-import { useTranslation } from 'react-i18next';
-import { toggleSidebar } from '../../store/themeConfigSlice';
-import i18next from 'i18next';
+import { toggleSidebar, toggleTheme } from '../../store/themeConfigSlice';
 import Dropdown from '../Dropdown';
 
 const Header = () => {
     const location = useLocation();
+    
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
         if (selector) {
@@ -31,15 +29,16 @@ const Header = () => {
         }
     }, [location]);
 
-    const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
+    const isRtl = useSelector((state: any) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
-    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
+    const themeConfig = useSelector((state: any) => state.themeConfig);
     const [, setTheme] = useState<any>();
     const dispatch = useDispatch();
 
     function createMarkup(messages: any) {
         return { __html: messages };
     }
+
     const [messages, setMessages] = useState([
         {
             id: 1,
@@ -95,10 +94,6 @@ const Header = () => {
             time: '9h Ago',
         },
     ]);
-
-    const removeNotification = (value: number) => {
-        setNotifications(notifications.filter((user) => user.id !== value));
-    };
 
     const [search, setSearch] = useState(false);
 
@@ -258,7 +253,7 @@ const Header = () => {
                                         </div>
                                     </li>
                                     <li>
-                                        <Link to="/users/user-account-settings" className="dark:hover:text-white">
+                                        <Link to="/profile" className="dark:hover:text-white">
                                             <svg className="ltr:mr-2 rtl:ml-2" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="12" cy="6" r="4" stroke="currentColor" strokeWidth="1.5" />
                                                 <path
@@ -272,7 +267,7 @@ const Header = () => {
                                         </Link>
                                     </li>
                                     <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link to="/auth/boxed-signin" className="text-danger !py-3">
+                                        <Link to="/auth/signin" className="text-danger !py-3">
                                             <svg className="ltr:mr-2 rtl:ml-2 rotate-90" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     opacity="0.5"

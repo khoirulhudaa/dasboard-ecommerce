@@ -4,7 +4,7 @@ import API from "../../services/api";
 import store from "../../store/store";
 import { shopInterface } from "../interfaces/shopInterface";
 
-const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }) => {
+const useShopFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: any }) => {
 
     const abortController = new AbortController()
     const abortSignal = abortController.signal
@@ -53,10 +53,10 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
         }),
         onSubmit: async (values: any) => {
             try {
-                console.log(values)
                 if(abortSignal.aborted) return
                 
                 const authData:any = store.getState().authSlice.auth;
+                console.log('response auth:', authData)
                 const formData:any = new FormData();
 
                 formData.append('seller_name', values.seller_name);
@@ -69,13 +69,14 @@ const useShopFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }
                 formData.append('shop_address', values.shop_address);
                 formData.append('image_shop', values.image_shop);
 
+                console.log('formdata:', formData)
                 const response = await API.createShop(formData)
+                console.log('response shop:', response)
                 
                 onResponse(response)
-                console.log('response shop:', response)
 
             } catch (error: any) {
-                onError(error.message)
+                onError(error)
                 console.log('error shop:', error.message)
             }
         }

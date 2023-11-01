@@ -21,6 +21,7 @@ const RegisterBoxed = () => {
     }
 
     const listGender = [
+        {label: "Select your gender", value: ""},
         {label: "Male", value: "Male"},
         {label: "Female", value: "Female"}
     ]
@@ -127,7 +128,7 @@ const RegisterBoxed = () => {
                     </div>
                     <p className="text-center">
                         Already have an account ?
-                        <Link to="/auth/boxed-signin" className="font-bold text-primary hover:underline ltr:ml-1 rtl:mr-1">
+                        <Link to="/auth/signin" className="font-bold text-primary hover:underline ltr:ml-1 rtl:mr-1">
                             Sign In
                         </Link>
                     </p>

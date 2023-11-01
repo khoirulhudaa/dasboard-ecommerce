@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { authSignOut } from '../../store/authSlice';
 import { clearProducts } from '../../store/productSlice';
 import { clearShop } from '../../store/shopSlice';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const LoginBoxed = () => {
     
@@ -13,13 +14,15 @@ const LoginBoxed = () => {
     const dispatch = useDispatch()
     
     useEffect(() => {
+        dispatch(setPageTitle('Login Boxed'));
         dispatch(authSignOut())
         dispatch(clearProducts())
         dispatch(clearShop())
     }, [])
 
-    const handleError = (error: string) => {
-        setErrorStatus(error)
+    const handleError = (error: any) => {
+        setErrorStatus(error.response.data.message)
+        console.log(error)
     }
 
     const formik = useLoginFormik({ onError: handleError })
@@ -58,18 +61,25 @@ const LoginBoxed = () => {
                     <button type="submit" onClick={() => formik.handleSubmit} className="btn btn-primary w-full">
                         SIGN IN
                     </button>
-                </form>
-                <div className="relative my-7 h-5 text-center before:w-full before:h-[1px] before:absolute before:inset-0 before:m-auto before:bg-[#ebedf2] dark:before:bg-[#253b5c]">
-                    <div className="font-bold text-white-dark bg-white dark:bg-black px-2 relative z-[1] inline-block">
-                        <span>OR</span>
+                    <div className="relative my-2 h-5 text-center before:w-full before:h-[1px] before:absolute before:inset-0 before:m-auto before:bg-[#ebedf2] dark:before:bg-[#253b5c]">
+                        <div className="font-bold text-white-dark bg-white dark:bg-black px-2 relative z-[1] inline-block">
+                            <span>OR</span>
+                        </div>
+                        <Link to="/auth/forgot-password" className="font-bold text-primary hover:underline ltr:ml-1 rtl:mr-1">
+                            <button type="submit" onClick={() => formik.handleSubmit} className="btn border-0 bg-transparent shadow-sm w-full">
+                                FORGOT PASSWORD
+                            </button>
+                        </Link>
                     </div>
+                </form>
+                <div className='flex items-center justify-center mt-[70px]'>
+                    <p className="text-center">
+                        Dont&apos;t have an account ?
+                        <Link to="/auth/signup" className="font-bold text-primary hover:underline ltr:ml-1 rtl:mr-1">
+                            Sign Up
+                        </Link>
+                    </p>
                 </div>
-                <p className="text-center">
-                    Dont&apos;t have an account ?
-                    <Link to="/auth/boxed-signup" className="font-bold text-primary hover:underline ltr:ml-1 rtl:mr-1">
-                        Sign Up
-                    </Link>
-                </p>
             </div>
         </div>
     );

@@ -4,5 +4,10 @@ export interface authInterface {
     password?: string,
     seller_name?: string,
     telephone_seller?: string,
-    gender?: string
+    gender?: string,
+    instagram?: string,
+    twitter?: string,
+    seller_image?: null,
+    birthday?: Date,
+    seller_image_old?: null
 }

@@ -3,11 +3,10 @@ import { FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../assets/css/animate.css';
+import { isEqual } from '../helpers/equal';
 import API from '../services/api';
 import { getProduct } from '../store/productSlice';
-import { AxiosResponse } from 'axios';
 import { getShopById } from '../store/shopSlice';
-import store from '../store/store';
 
 const Finance = () => {
     const dispatch = useDispatch();
@@ -27,30 +26,25 @@ const Finance = () => {
     console.log('shop', shop)
 
     useEffect(() => {
-        const currentShop = store.getState().shopSlice.shop;
-        setDataProducts(products)
-        setDataShop(shop)
-        const getHistory = async () => {
+        const resultData = async () => {
             try {
-                const response: AxiosResponse = await API.getAllProduct()
-                const responseShop = await API.getShopById(auth.data.seller_id)
-                dispatch(getShopById(responseShop.data.data))
-                dispatch(getProduct(response.data))
-                setDataProducts(response.data)
-                setDataFetch(true)
+                const responseShop:any = await API.getShopById(auth.seller_id)
+                const response = await API.getAllProduct(responseShop.data.data[0].shop_id)
+
+                if(!isEqual(dataProducts, response.data.data)) {
+                    dispatch(getProduct(response.data.data))
+                    dispatch(getShopById(responseShop.data.data));
+                    setDataProducts(response.data.data)
+                } 
+                
+                setDataShop(shop[0])
             } catch (error: any) {
-                console.log("error products", error.message)
-                setAlertMessage(error.message)
+                console.log(error.message);
             }
-        }
-
-        if (shop.length === 0 && !dataFetch || products.length === 0 && !dataFetch) {
-            getHistory();
-        }
-
-        console.log('data shop:', dataShop)
-
-    }, [dataFetch, dataShop, shop, dataProducts, dataFetch, dispatch]);
+        };
+        
+        resultData();
+    }, [shop[0], products[0]?.data, dispatch]);
 
     const handleCloseAlert = (status: boolean) => {
         setAlertStatus(status)
@@ -86,7 +80,7 @@ const Finance = () => {
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Products</div>
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataProducts && dataProducts.length > 0 ? dataProducts[0]?.data?.length : 0} items</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataProducts && dataProducts.length > 0 ? dataProducts?.length : 0} items</div>
                         </div>
                         <div className="flex items-center font-semibold mt-5">
                             Existing product info

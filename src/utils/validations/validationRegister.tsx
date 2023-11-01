@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { signSellerInterface } from '../interfaces/signSellerInterface';
 import API from '../../services/api';
 
-export const useRegistrationFormik = ({onError, onAlert}: {onError: any, onAlert: any}) => {
+export const useRegistrationFormik = ({onError, onAlert}: {onError?: any, onAlert?: any}) => {
 
   const abortController = new AbortController()
   const abortSignal = abortController.signal
@@ -33,7 +33,7 @@ export const useRegistrationFormik = ({onError, onAlert}: {onError: any, onAlert
         .required('This field is required.')
         .oneOf(['Male', 'Female'], 'Invalid gender')
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: any, {resetForm}) => {
       try {
 
         if(abortSignal.aborted) return
@@ -42,17 +42,9 @@ export const useRegistrationFormik = ({onError, onAlert}: {onError: any, onAlert
         if (response.data.status === 200) {
           onAlert(true)
           onError("")
-          formik.setValues({
-            seller_name: '',
-            email_seller: '',
-            password: '',
-            telephone_seller: '',
-            gender: ''
-          })
-          formik.resetForm()
-        } else if (response.data.status === 401) {
-          onError(response.data.message)
-        }
+          resetForm()
+        } 
+        
       } catch (error: any) {
         onError(error.message)
       }

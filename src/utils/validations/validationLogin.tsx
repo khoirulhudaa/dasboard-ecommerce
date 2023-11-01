@@ -8,7 +8,7 @@ import API from '../../services/api';
 import { authSignIn, saveToken } from '../../store/authSlice';
 
 
-export const useLoginFormik = ({onError}: {onError: any}) => {
+export const useLoginFormik = ({onError}: {onError?: any}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -25,24 +25,21 @@ export const useLoginFormik = ({onError}: {onError: any}) => {
             .min(6, 'Must be at least 6 characters')
             .required('This field is required.')
         }),
-        onSubmit: async (values: any) => {
+        onSubmit: async (values: any, {resetForm}) => {
             try {
                 const response: AxiosResponse = await API.checkAccountSeller(values)
-                dispatch(authSignIn(response.data))
+                const responseAuth: AxiosResponse = await API.getAccountSeller(response.data.data.seller_id)
+                dispatch(authSignIn(response.data.data))
                 dispatch(saveToken(response.data.token))
-                onError("")
-                if(response.data.status === 200) {
-                    formik.setValues({
-                        email_seller: '',
-                        password: ''
-                    })
-                    formik.resetForm()
+                console.log('response auth1', response)
+                console.log('responseAuth 2', responseAuth.data.data)
+                if(response) {
+                    resetForm()
                     navigate('/')
-                }else {
-                    onError(response.data.message)
                 }
+
             } catch (error: any) {
-                onError(error.response.data.message)
+                onError(error)
             }
         }
     })

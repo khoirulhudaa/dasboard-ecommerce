@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputField = ({
+const InputField = React.forwardRef(({
   label,
   onBlur,
   value,
@@ -13,7 +13,7 @@ const InputField = ({
   options,
   onError,
   onTouched,
-  disabled
+  disabled,
 }: {
   label?: string,
   onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
@@ -27,8 +27,8 @@ const InputField = ({
   options?: { label: string, value: string }[],
   onError?: string | undefined,
   onTouched?: boolean | undefined,
-  disabled?: boolean
-}) => {
+  disabled?: boolean,
+}, ref: any) => {
   switch (typeInput) {
       case "select-input":
           return (
@@ -38,13 +38,15 @@ const InputField = ({
                     id={id}
                     disabled={disabled}
                     name={name} 
-                    className={`w-[100%] rounded-md bg-white outline-0 border-[1px] p-2 box-sizing ${onError && onTouched ? 'border-red-500 text-[red]' : ''}${disabled ? 'bg-gray-100' : '' }`} 
+                    ref={ref}
+                    className={`w-[100%] rounded-md text-[14px] bg-white outline-0 border-[1px] p-2 box-sizing ${onError && onTouched ? 'border-red-500 text-[red]' : ''}${disabled ? 'bg-gray-100' : '' }`} 
                     value={value} 
+                    placeholder={placeholder}
                     onChange={onChange}
                     onBlur={onBlur}>
                     {
-                        options && options.map((opt) => (
-                            <option key={opt.value} value={opt.value}>
+                        options && options.map((opt, index) => (
+                            <option key={opt.value} value={opt.value} disabled={index === 0}>
                                 {opt.label}
                             </option>
                         ))
@@ -68,6 +70,7 @@ const InputField = ({
                 name={name}
                 disabled={disabled}
                 value={value}
+                ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}
                 style={{ height: '80px' }}
@@ -92,6 +95,7 @@ const InputField = ({
                 id={id}
                 type={type}
                 name={name}
+                ref={ref}
                 disabled={disabled}
                 value={value}
                 onChange={onChange}
@@ -109,6 +113,6 @@ const InputField = ({
           </>
       )
   }
-};
+});
 
 export default InputField;

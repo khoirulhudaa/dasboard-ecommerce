@@ -15,5 +15,5 @@ export interface historyInterface {
     product_brand?: string,
     product_category?: string,
     quantity?: number,
-    product_image?: string
+    amount?: number
 }

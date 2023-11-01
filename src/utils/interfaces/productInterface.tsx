@@ -4,12 +4,12 @@ export interface productInterface {
     product_type?: string,
     product_color?: string,
     product_description?: string,
-    product_image?: string,
+    product_image?: null,
     product_price?: number,
     product_brand?: string,
     product_size?: string,
     product_category?: string,
     quantity?: number,
     shop_id?: string,
-    _id?: string
+    _id?: string | number
 }

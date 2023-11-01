@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import API from "../../services/api";
 import store from "../../store/store";
 import { shopInterface } from "../interfaces/shopInterface";
+import { useEffect } from "react";
 
 const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }) => {
 
@@ -10,7 +11,6 @@ const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse:
     const abortSignal = abortController.signal
     
     const dataShopNow: any = store.getState().shopSlice.shop
-    // console.log('okok', dataShopNow)
     
     const formik = useFormik<shopInterface>({
         initialValues: {
@@ -91,7 +91,20 @@ const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse:
         }
     })
 
+    useEffect(() => {
+        formik.setValues({
+            seller_name: dataShopNow[0]?.seller_name || '',
+            shop_name: dataShopNow[0]?.shop_name || '',
+            shop_address: dataShopNow[0]?.shop_address || '',
+            image_shop: null,
+            motto_shop: dataShopNow[0]?.motto_shop || '',
+            telephone_seller: dataShopNow[0]?.telephone_seller || '',
+            description_shop: dataShopNow[0]?.description_shop || '',
+            followers: dataShopNow[0]?.followers || 0
+        });
+    }, [dataShopNow[0]]);
+
     return formik
 }
 
-export default useShopUpdateFormik
+export default useShopUpdateFormik;

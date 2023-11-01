@@ -1,17 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useReactTable, flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
-import datas from './data.json';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import lodash from 'lodash';
 
 const Table = ({
   columns,
-  dataTable
+  dataTable,
+  search
 }: {
   columns: Array<any>,
-  dataTable: Array<any>
+  dataTable: Array<any>,
+  search: string
 }) => {
 
   const [sorting, setSorting] = useState([])
+  
   useEffect(() => {
     const thElements = document.querySelectorAll('thead th') as NodeListOf<HTMLTableCellElement>;
     const numberOfColumns = columns.length;
@@ -22,7 +25,24 @@ const Table = ({
     });
   }, [])
 
-  const data = useMemo(() => dataTable, []);
+  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState<any[]>(dataTable);
+
+  const handleSearch = lodash.debounce((term: string) => {
+    const filteredResults = lodash.filter(dataTable, (item) => {
+      return item.product_name.toLowerCase().includes(term.toLowerCase());
+    });
+
+    setFilteredData(filteredResults);
+  }, 300); // Gunakan lodash.debounce untuk menunda pencarian
+
+  useEffect(() => {
+    setSearchTerm(search); // Perbarui searchTerm dengan nilai search
+    handleSearch(searchTerm); // Gunakan searchTerm dalam pencarian
+  }, [searchTerm, dataTable, search]);
+  
+  const data = filteredData;
 
   const table = useReactTable({
     data,
@@ -93,10 +113,14 @@ const Table = ({
           ))
         }
       </tbody>
-      <div>
+      <div className='flex items-center w-max h-max mt-4'>
         <button onClick={() => table.setPageIndex(0)}>First Page</button>
-        <button style={{backgroundColor: !table.getCanPreviousPage() ? 'gray' : 'white'}} onClick={() => table.previousPage()}>Prev</button>
-        <button style={{backgroundColor: !table.getCanNextPage() ? 'gray' : 'white'}} disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>Next</button>
+        <button className={`w-[30px] h-[30px] border-[1px] border-gray-300 mx-2 flex justify-center items-center rounded-lg border-box ${!table.getCanPreviousPage() ? 'bg-gray-300' : 'bg-white'}`} onClick={() => table.previousPage()}>
+          <FaChevronLeft />
+        </button>
+        <button className={`w-[30px] h-[30px] border-[1px] border-gray-300 mx-2 flex justify-center items-center rounded-lg border-box ${!table.getCanNextPage() ? 'bg-gray-300' : 'bg-white'}`} disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>
+          <FaChevronRight/>
+        </button>
         <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>Last Page</button>
       </div>
     </table>

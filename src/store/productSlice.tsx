@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { productInterface } from "../interfaces/productInterface";
+import { productInterface } from "../utils/interfaces/productInterface";
 
 interface ProductState {
     products: productInterface[];
+    productById: productInterface[];
 }
 
 const initialState: ProductState = {
-    products: []
+    products: [],
+    productById: []
 }
 
 const productReducers = createSlice({
@@ -15,10 +17,16 @@ const productReducers = createSlice({
     reducers: {
         getProduct: (state, action: PayloadAction<productInterface>) => {
             const existingProduct = state.products.find(product => product.product_id === action.payload.product_id);
-
+            
             // Jika tidak ada, tambahkan produk
             if (!existingProduct) {
                 state.products.push(action.payload);
+            }
+        },
+        getProductById: (state, action: PayloadAction<productInterface>) => {
+            state.productById = {
+                ...state.productById,
+                ...action.payload          
             }
         },
         removeProduct: (state, action: PayloadAction<productInterface>) => {
@@ -30,5 +38,5 @@ const productReducers = createSlice({
     }
 })
 
-export const { getProduct, removeProduct, clearProducts } = productReducers.actions
+export const { getProduct, removeProduct, clearProducts, getProductById } = productReducers.actions
 export default productReducers.reducer;

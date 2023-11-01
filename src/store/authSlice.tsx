@@ -13,7 +13,11 @@ const initialState: authStates = {
         password: "",
         seller_name: "",
         telephone_seller: "",
-        gender: ""  
+        gender: "",
+        birthday: new Date(),
+        instagram: "",
+        twitter: "",
+        seller_image: null,
     },
     token: ""
 }

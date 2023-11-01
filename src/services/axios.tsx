@@ -40,8 +40,9 @@ api.interceptors.response.use(function (response) {
 }, function (error) {
 
   console.log('error interceptors:', error)
-  if (error.response && error.response.status === 401) {
-    console.log("error interceptors new:", error)
+  if (error.response && error.response.status === 403) {
+      console.log("error interceptors new:", error)
+      window.location.pathname = '/auth/signin'
   }
 
   return Promise.reject(error);
