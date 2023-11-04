@@ -4,4 +4,5 @@ export interface signSellerInterface {
     gender?: string,
     telephone_seller?: string,
     password?: string,
+    confirmPassword?: string
 }

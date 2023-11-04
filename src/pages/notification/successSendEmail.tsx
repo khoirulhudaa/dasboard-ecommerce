@@ -1,11 +1,10 @@
-import React from 'react'
-import Button from '../../components/button'
 import { Link } from 'react-router-dom'
+import Button from '../../components/button'
 
 const SuccessSendEmail = () => {
   return (
     <div className='w-screen h-screen flex flex-col items-center justify-center text-center'>
-      <div className='w-[40vw] h-[340px] rounded-[20px] p-4 bg-white shadow-md flex flex-col items-center justify-center'>
+      <div className='w-[100vw] h-[100vh] md:w-[40vw] md:h-[340px] rounded-[20px] p-4 bg-white shadow-md flex flex-col items-center justify-center'>
         <div className='w-[120px] h-[120px] overflow-hidden flex justify-center items-center p-2'>
             <img src="/assets/images/mail.png" alt="icon-message" />
         </div>

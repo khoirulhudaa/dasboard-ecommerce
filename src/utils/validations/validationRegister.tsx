@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { signSellerInterface } from '../interfaces/signSellerInterface';
 import API from '../../services/api';
+import { signSellerInterface } from '../interfaces/signSellerInterface';
 
 export const useRegistrationFormik = ({onError, onAlert}: {onError?: any, onAlert?: any}) => {
 
@@ -41,12 +41,13 @@ export const useRegistrationFormik = ({onError, onAlert}: {onError?: any, onAler
         const response = await API.createAccountSeller(values);
         if (response.data.status === 200) {
           onAlert(true)
-          onError("")
           resetForm()
-        } 
+        } else {
+          onError("Email already exist!")
+        }
         
       } catch (error: any) {
-        onError(error.message)
+        onError("Email already exist!")
       }
     }
   });

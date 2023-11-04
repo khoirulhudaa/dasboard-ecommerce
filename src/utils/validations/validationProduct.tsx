@@ -85,11 +85,9 @@ const useProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: 
                     resetForm(); 
                 }
                 onResponse(response)
-                console.log('response shop:', response)
                 
             } catch (error: any) {
-                onError(error.message)
-                console.log('error shop:', error.message)
+                onError(error.data.message)
             }
         }
     })

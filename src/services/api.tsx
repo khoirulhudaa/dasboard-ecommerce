@@ -1,7 +1,7 @@
 import { productInterface } from "../utils/interfaces/productInterface";
 import { shopInterface } from "../utils/interfaces/shopInterface";
 import { signSellerInterface } from "../utils/interfaces/signSellerInterface";
-import api from './axios'
+import api from './axios';
 
 const API = {
 

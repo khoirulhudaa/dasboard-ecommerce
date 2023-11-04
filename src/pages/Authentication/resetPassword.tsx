@@ -1,15 +1,14 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import InputField from '../../components/inputField';
 import { useResetPassword } from '../../utils/validations/validationResetPassword';
-import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
     
     const [errorStatus, setErrorStatus] = useState("")
 
-    const handleError = (error: any) => {
-        setErrorStatus(error.response.data.message)
-        console.log(error)
+    const handleError = (error: string) => {
+        setErrorStatus(error)
     }
 
     const formik = useResetPassword({ onError: handleError })
@@ -17,8 +16,17 @@ const ResetPassword = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
             <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
-                <small className='text-[red] tex-[12px] font-normal mb-4'>{errorStatus !== "" ? errorStatus : ""}</small>
-                <h2 className="font-bold text-2xl mb-[15px]">Change password</h2>
+                {
+                    errorStatus !== "" ? (
+                        <>
+                            <small className='text-[white] rounded-full px-4 py-1 text-[12px] font-normal bg-[red] mb-[120px]'>
+                                {errorStatus}
+                            </small>
+                        </>
+                    ):
+                        null
+                }
+                <h2 className="font-bold text-2xl mb-[15px] mt-5">Change password</h2>
                 <p className="mb-7">Enter your new password</p>
                 <form className="space-y-5" onSubmit={formik.handleSubmit}>
                     <div>

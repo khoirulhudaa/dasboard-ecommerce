@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../../components/button';
 import InputField from '../../components/inputField';
 import { useForgotPassword } from '../../utils/validations/validationForgotPassword';
 
@@ -8,9 +7,8 @@ const ForgotPassword = () => {
     
     const [errorStatus, setErrorStatus] = useState("")
 
-    const handleError = (error: any) => {
-        setErrorStatus(error.response.data.message)
-        console.log(error)
+    const handleError = (error: string) => {
+        setErrorStatus(error)
     }
 
     const formik = useForgotPassword({ onError: handleError })
@@ -18,8 +16,17 @@ const ForgotPassword = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
             <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
-                <small className='text-[red] tex-[12px] font-normal mb-4'>{errorStatus !== "" ? errorStatus : ""}</small>
-                <h2 className="font-bold text-2xl mb-[15px]">Forgot password</h2>
+                {
+                    errorStatus !== "" ? (
+                        <>
+                            <small className='text-[white] rounded-full px-4 py-1 text-[12px] font-normal bg-[red] mb-[120px]'>
+                                {errorStatus}
+                            </small>
+                        </>
+                    ):
+                        null
+                }
+                <h2 className="font-bold text-2xl mb-[15px] mt-5">Forgot password</h2>
                 <form className="space-y-5" onSubmit={formik.handleSubmit}>
                     <div>
                         <InputField 

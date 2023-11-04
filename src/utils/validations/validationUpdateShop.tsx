@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import * as Yup from 'yup';
 import API from "../../services/api";
 import store from "../../store/store";
 import { shopInterface } from "../interfaces/shopInterface";
-import { useEffect } from "react";
 
 const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse: any }) => {
 
@@ -80,13 +80,10 @@ const useShopUpdateFormik = ({ onError, onResponse }:{ onError: any, onResponse:
                 }
 
                 const response = await API.updateShopById({ shop_id: dataShopNow[0].shop_id, body: formData });
-                
                 onResponse(response)
-                console.log('response shop:', response)
 
             } catch (error: any) {
                 onError(error.message)
-                console.log('error shop:', error.message)
             }
         }
     })

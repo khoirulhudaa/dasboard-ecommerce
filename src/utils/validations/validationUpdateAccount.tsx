@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import * as Yup from 'yup';
 import API from "../../services/api";
 import { authInterface } from "../interfaces/authInterface";
-import { useSelector } from "react-redux";
 
 const useUpdateAccountFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: any }) => {
     
@@ -69,7 +69,6 @@ const useUpdateAccountFormik = ({ onError, onResponse }:{ onError?: any, onRespo
           }
 
           const response = await API.updateAccountSeller({seller_id: auth?.seller_id, body: formData})
-          console.log('ok', auth)
           if (response.data.status === 200) {
             onResponse(response)
           } 

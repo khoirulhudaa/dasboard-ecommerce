@@ -1,16 +1,16 @@
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import SweetAlert from '../../components/alertBox';
+import Button from '../../components/button';
 import Gap from '../../components/gap';
 import InputField from '../../components/inputField';
 import API from '../../services/api';
-import useUpdateProductFormik from '../../utils/validations/validationUpdateProduct';
 import { getProductById } from '../../store/productSlice';
-import Button from '../../components/button';
-import { isEqual } from 'lodash';
 import store from '../../store/store';
+import useUpdateProductFormik from '../../utils/validations/validationUpdateProduct';
 
 const UpdateProduct = () => {
     const [errorStatus, setErrorStatus] = useState<string>("");

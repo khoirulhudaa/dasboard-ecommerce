@@ -25,10 +25,12 @@ export const useForgotPassword = ({onError}: {onError?: any}) => {
                 if(response.data.message === "Email sent successfully!") {
                     resetForm()
                     navigate('/auth/succes/sendEmailMessage')
+                }else {
+                    onError("Failed sent email!")
                 }
 
             } catch (error: any) {
-                onError(error)
+                onError(error.data.message)
             }
         }
     })

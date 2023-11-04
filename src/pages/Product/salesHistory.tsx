@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FaPen, FaTrash } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import SweetAlert from '../../components/alertBox';
 import Button from '../../components/button';
 import Table from '../../components/table';

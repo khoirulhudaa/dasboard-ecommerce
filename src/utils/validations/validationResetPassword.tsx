@@ -3,13 +3,16 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import API from '../../services/api';
+import { signSellerInterface } from '../interfaces/signSellerInterface';
+import store from '../../store/store';
 
 
 export const useResetPassword = ({onError}: {onError?: any}) => {
     const navigate = useNavigate()
     const { token } = useParams()
+    const auth = store.getState().authSlice.auth
 
-    const formik = useFormik<any>({
+    const formik = useFormik<signSellerInterface>({
         initialValues: {
             password: '',
             confirmPassword: ''
@@ -29,17 +32,15 @@ export const useResetPassword = ({onError}: {onError?: any}) => {
                         password: values.password
                     }
                     const response: AxiosResponse = await API.resetPassword({token, body})
-                    console.log('response forgot pass:', response)
-                    console.log('Toekn reset passworf:', token)
                     if (response.data.message === "Password successfully reset") {
                         resetForm()
                         navigate('/auth/signin')
+                    }else {
+                        onError('Invalid token!')
                     }
-                } else {
-                    console.log('error')
-                }
+                } 
             } catch (error: any) {
-                onError(error)
+                onError(error.data.message)
             }
         }
     })

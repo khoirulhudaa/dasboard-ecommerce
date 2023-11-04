@@ -3,9 +3,9 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { signSellerInterface } from '../interfaces/signSellerInterface';
 import API from '../../services/api';
 import { authSignIn, saveToken } from '../../store/authSlice';
+import { signSellerInterface } from '../interfaces/signSellerInterface';
 
 
 export const useLoginFormik = ({onError}: {onError?: any}) => {
@@ -28,18 +28,19 @@ export const useLoginFormik = ({onError}: {onError?: any}) => {
         onSubmit: async (values: any, {resetForm}) => {
             try {
                 const response: AxiosResponse = await API.checkAccountSeller(values)
-                const responseAuth: AxiosResponse = await API.getAccountSeller(response.data.data.seller_id)
+                await API.getAccountSeller(response.data.data.seller_id)
                 dispatch(authSignIn(response.data.data))
                 dispatch(saveToken(response.data.token))
-                console.log('response auth1', response)
-                console.log('responseAuth 2', responseAuth.data.data)
+               
                 if(response) {
                     resetForm()
                     navigate('/')
+                }else {
+                    onError("Incorrect email or password!")
                 }
-
+                
             } catch (error: any) {
-                onError(error)
+                onError("Incorrect email or password!")
             }
         }
     })

@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import * as Yup from 'yup';
 import API from "../../services/api";
 import store from "../../store/store";
 import { productInterface } from "../interfaces/productInterface";
-import { useEffect } from "react";
 
 const useUpdateProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: any }) => {
     const abortController = new AbortController()
@@ -94,7 +94,6 @@ const useUpdateProductFormik = ({ onError, onResponse }:{ onError?: any, onRespo
                 
             } catch (error: any) {
                 onError(error.message)
-                console.log('error shop:', error.message)
             }
         }
     })

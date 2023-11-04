@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import SweetAlert from '../../components/alertBox';
 import Button from '../../components/button';
 import InputField from '../../components/inputField';
@@ -11,7 +12,6 @@ import API from '../../services/api';
 import { getProduct } from '../../store/productSlice';
 import { productInterface } from '../../utils/interfaces/productInterface';
 import useProductFormik from '../../utils/validations/validationProduct';
-import { Link, useNavigate } from 'react-router-dom';
 
 const AltPagination = () => {
 

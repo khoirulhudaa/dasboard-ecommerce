@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SweetAlert from '../../components/alertBox';
+import InputField from '../../components/inputField';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import { useRegistrationFormik } from '../../utils/validations/validationRegister';
-import InputField from '../../components/inputField';
 
 const RegisterBoxed = () => {
     
@@ -36,10 +36,17 @@ const RegisterBoxed = () => {
         <div>
             <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-[url('/assets/images/map.svg')] dark:bg-[url('/assets/images/map-dark.svg')]">
                 <div className="panel sm:w-[480px] m-6 max-w-lg w-full">
-                    <small className='text-[red] tex-[12px] font-normal mb-4'>
-                        {errorStatus !== "" ? errorStatus: ''}
-                    </small>
-                    <h2 className="font-bold text-2xl mb-3">Sign Up</h2>
+                {
+                    errorStatus !== "" ? (
+                        <>
+                            <small className='text-[white] rounded-full px-4 py-1 text-[12px] font-normal bg-[red] mb-[120px]'>
+                                {errorStatus}
+                            </small>
+                        </>
+                    ):
+                        null
+                }
+                <h2 className="font-bold text-2xl mb-[15px] mt-5">Sign Up</h2>
                     <p className="mb-7">Lets go join with ElectShop</p>
                     {
                         alertStatus ? (
