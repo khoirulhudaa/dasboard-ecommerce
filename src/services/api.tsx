@@ -26,14 +26,6 @@ const API = {
     resetPassword: ({token, body}: {token: string, body: any}) => {
         return api.put(`/account/seller/reset-password/${token}`, body)
     },
-    
-    // Account consumer
-    checkAccountConsumer: (body: any) => {
-        return api.post('/account/signup/consumer', body)
-    },
-    createAccountConsumer: () => {
-        return api.post('/account/signin/consumer')
-    },
 
     // Product
     getAllProduct: (shop_id?: string) => {

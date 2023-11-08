@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useReactTable, flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { FaArrowDown, FaArrowUp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import lodash from 'lodash';
+import { useEffect, useState } from 'react';
+import { FaArrowDown, FaArrowUp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Table = ({
   columns,

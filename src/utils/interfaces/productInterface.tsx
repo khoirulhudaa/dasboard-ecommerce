@@ -11,5 +11,7 @@ export interface productInterface {
     product_category?: string,
     quantity?: number,
     shop_id?: string,
-    _id?: string | number
+    shop_name?: string,
+    image_shop?: string,
+    _id?: string | number,
 }

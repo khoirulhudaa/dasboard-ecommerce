@@ -16,6 +16,7 @@ const Profile = () => {
 
     const dispatch = useDispatch()
     const auth = useSelector((state: any) => state.authSlice.auth)
+    
     useEffect(() => {
         const getDataAccount = async () => {
             try {
