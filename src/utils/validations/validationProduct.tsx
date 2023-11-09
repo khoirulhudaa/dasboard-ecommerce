@@ -8,7 +8,7 @@ const useProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: 
     const abortController = new AbortController()
     const abortSignal = abortController.signal
 
-    const shop = store.getState().shopSlice.shop
+    const shop:any = store.getState().shopSlice.shop
     
     const formik = useFormik<productInterface>({
         initialValues: {
@@ -68,7 +68,7 @@ const useProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: 
                 
                 const formData: any = new FormData()
                 const shopData:any = store.getState().shopSlice.shop;
-                console.log('shop product:', shopData)
+                console.log('shop my:', shop)
 
                 formData.append('shop_id', shopData[0]?.shop_id);
                 formData.append('product_name', values.product_name);
@@ -81,8 +81,8 @@ const useProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: 
                 formData.append('product_category', values.product_category);
                 formData.append('product_brand', values.product_brand);
                 formData.append('quantity', values.quantity);
-                formData.append('shop_name', shop?.shop_name);
-                formData.append('image_shop', shop?.image_shop);
+                formData.append('shop_name', shop[0]?.shop_name);
+                formData.append('image_shop', shop[0]?.image_shop);
 
                 const response = await API.createNewProduct(formData)
                 if(response && response.data.message === "Successfully add new product!") {
