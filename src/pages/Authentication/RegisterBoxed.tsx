@@ -90,6 +90,7 @@ const RegisterBoxed = () => {
                                 name='password' 
                                 id='password'
                                 label='password'
+                                type='password'
                                 onError={formik.errors.password}
                                 onTouched={!!formik.touched.password}
                                 onChange={formik.handleChange} 
@@ -98,31 +99,31 @@ const RegisterBoxed = () => {
                             />
                         </div>
                         <div>
-                        <InputField 
-                            value={formik.values.telephone_seller} 
-                            name='telephone_seller' 
-                            label='Number Telephone'
-                            id='telephone'
-                            onError={formik.errors.telephone_seller}
-                            onTouched={!!formik.touched.telephone_seller}
-                            onChange={formik.handleChange} 
-                            onBlur={formik.handleBlur} 
-                            placeholder="Your number" 
-                        />
+                            <InputField 
+                                value={formik.values.telephone_seller} 
+                                name='telephone_seller' 
+                                label='Number Telephone'
+                                id='telephone'
+                                onError={formik.errors.telephone_seller}
+                                onTouched={!!formik.touched.telephone_seller}
+                                onChange={formik.handleChange} 
+                                onBlur={formik.handleBlur} 
+                                placeholder="Your number" 
+                            />
                         </div>
                         <div>
-                        <InputField 
-                            value={formik.values.gender} 
-                            name='gender' 
-                            label='Gender'
-                            id='gender'
-                            typeInput='select-input'
-                            onError={formik.errors.gender}
-                            onTouched={!!formik.touched.gender}
-                            onChange={formik.handleChange} 
-                            onBlur={formik.handleBlur} 
-                            options={listGender}
-                        />
+                            <InputField 
+                                value={formik.values.gender} 
+                                name='gender' 
+                                label='Gender'
+                                id='gender'
+                                typeInput='select-input'
+                                onError={formik.errors.gender}
+                                onTouched={!!formik.touched.gender}
+                                onChange={formik.handleChange} 
+                                onBlur={formik.handleBlur} 
+                                options={listGender}
+                            />
                         </div>
                         <button type="submit" className="btn btn-primary w-full" onClick={() => formik.handleSubmit}>
                             SIGN UP

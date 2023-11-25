@@ -51,32 +51,34 @@ const useShopFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: any
             .min(10, 'Must be at lest 10 characters')
             .max(150, 'Maximum only 150 characters'),
         }),
-        onSubmit: async (values: any) => {
+        onSubmit: async (values: any, {resetForm}) => {
             try {
                 if(abortSignal.aborted) return
                 
                 const authData:any = store.getState().authSlice.auth;
-                console.log('response auth:', authData)
                 const formData:any = new FormData();
 
                 formData.append('seller_name', values.seller_name);
                 formData.append('shop_name', values.shop_name);
-                formData.append('seller_id', authData.data.seller_id);
-                formData.append('email_seller', authData.data.email_seller);
-                formData.append('telephone_seller', authData.data.telephone_seller);
+                formData.append('seller_id', authData?.seller_id);
+                formData.append('email_seller', authData?.email_seller);
+                formData.append('telephone_seller', authData?.telephone_seller);
                 formData.append('motto_shop', values.motto_shop);
                 formData.append('description_shop', values.description_shop);
                 formData.append('shop_address', values.shop_address);
                 formData.append('image_shop', values.image_shop);
 
-                console.log('formdata:', formData)
                 const response = await API.createShop(formData)
-                console.log('response shop:', response)
+                if(response.data.message === "Successfully create shop!") {
+                    resetForm()
+                    onResponse(response)
+                }else {
+                    onError(response.data.message)
+                }
                 
-                onResponse(response)
 
             } catch (error: any) {
-                onError(error)
+                onError(error.message)
                 console.log('error shop:', error.message)
             }
         }

@@ -7,9 +7,10 @@ const LoginBoxed = lazy(() => import('../pages/Authentication/LoginBoxed'));
 const RegisterBoxed = lazy(() => import('../pages/Authentication/RegisterBoxed'));
 const Profile = lazy(() => import('../pages/Users/profile'));
 const SalesHistory = lazy(() => import('../pages/Product/salesHistory'));
+const OnDelivery = lazy(() => import('../pages/Product/onDelivery'));
 const ForgotPassword = lazy(() => import('../pages/Authentication/forgotPassword'))
 const SuccessSendEmail = lazy(() => import('../pages/notification/successSendEmail'))
-const ResetPassword = lazy(() => import('../pages//Authentication/resetPassword'))
+const ResetPassword = lazy(() => import('../pages/Authentication/resetPassword'))
 
 const routes = [
     {
@@ -23,6 +24,10 @@ const routes = [
     {
         path: '/history',
         element: <SalesHistory />,
+    },
+    {
+        path: '/OnDelivery',
+        element: <OnDelivery />,
     },
     {
         path: '/users/user-account-settings',

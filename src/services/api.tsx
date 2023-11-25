@@ -1,3 +1,4 @@
+import { paymentInterface } from "../utils/interfaces/paymentInterface";
 import { productInterface } from "../utils/interfaces/productInterface";
 import { shopInterface } from "../utils/interfaces/shopInterface";
 import { signSellerInterface } from "../utils/interfaces/signSellerInterface";
@@ -67,12 +68,31 @@ const API = {
     },
 
     // history
-    getHistory: (sellerIdorConsumerId: string) => {
-        return api.get(`/history/${sellerIdorConsumerId}`)
+    getAllHistoryBuy: (id: string) => {
+        return api.get(`/history/seller/${id}`)
     },
-    removeHistoryById: (history_id: string) => {
-        return api.delete(`/history/${history_id}`)
+    removeHistoryById: (history_id: string, idCart: string) => {
+        return api.delete(`/history/seller/${history_id}/product/${idCart}`)
     },
+    packNow: (history_id: string, status: string) => {
+        return api.put(`/history/updateStatus/${history_id}/${status}`)
+    },
+
+    // payment
+    getAllPaymentByShop: (shop_id: string) => {
+        return api.get(`/payment/${shop_id}`)
+    },
+    updatePaymentMethodByShop: ({shop_id, body}:{shop_id: string, body: any}) => {
+        return api.put(`/payment/${shop_id}`, body)
+    },
+    disbursement: (body: paymentInterface) => {
+        return api.post('/payment/withdraw', body)
+    },
+
+    // revenue
+    getRevenueById: (revenue_id: string) => {
+        return api.get(`/revenue/${revenue_id}`)
+    }
 }
 
 export default API;

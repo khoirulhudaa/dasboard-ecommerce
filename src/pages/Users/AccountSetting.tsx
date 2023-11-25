@@ -27,15 +27,14 @@ const AccountSetting = () => {
 
     const shopData = useSelector((state: any) => state.shopSlice.shop)
     const auth = useSelector((state: any) => state.authSlice.auth)
-    
     useEffect(() => {
         const getDataShop = async () => {
             try {
                 const responseShop = await API.getShopById(auth.seller_id);
-                if(!isEqual(dataShop, shopData[0])) {
+                if(!isEqual(shopData, responseShop.data.data)) {
                     dispatch(getShopById(responseShop.data.data));
-                    setStatusGet(true);
-                    setDataShop(shopData[0]);
+                    setStatusGet(false);
+                    setDataShop(responseShop.data.data);
                 }   
             } catch (error: any) {
                 console.log(error.message);
@@ -43,7 +42,7 @@ const AccountSetting = () => {
         };
         
         getDataShop();
-    }, [shopData[0], dispatch]);
+    }, [statusGet, dispatch]);
     
 
     // Close modal
@@ -53,7 +52,7 @@ const AccountSetting = () => {
 
     // Handle error from validasi formik
     const handleError = (error: any) => {
-        setErrorStatus(error.message)
+        setErrorStatus(error)
     }
 
     // Handle response success from formik
@@ -62,11 +61,8 @@ const AccountSetting = () => {
             setResponseShop(response)
             setAlertStatus(true)
             setTitleModal("create")
-
-            // Mengatur ulang alertStatus menjadi false setelah 2 detik
-            setTimeout(() => {
-                setAlertStatus(false);
-            }, 100);
+            setModalStatus(false)
+            setStatusGet(true);
         }
     }
 
@@ -76,6 +72,7 @@ const AccountSetting = () => {
             setStatusForm(false)
             setAlertStatus(true)
             setTitleModal("update")
+            setStatusGet(true);
 
             // Mengatur ulang alertStatus menjadi false setelah 2 detik
             setTimeout(() => {
@@ -142,8 +139,8 @@ const AccountSetting = () => {
                     <h5 className="font-semibold text-lg dark:text-white-light">Settings</h5>
                 </div>
                 {
-                    dataShop && dataShop.shop_id ? (
-                        <div className='w-max h-max flex items-center justify-between px-5 py-2 bg-red-500 absolute right-[180px] active:scale-[0.98] transition-100 hover:brightness-[94%] text-white font-normal cursor-pointer rounded-md shadow-md' onClick={() => deleleteShop(dataShop.shop_id)}>
+                    dataShop?.[0] && dataShop?.[0].shop_id ? (
+                        <div className='w-max h-max flex items-center justify-between px-5 py-2 bg-red-500 absolute right-[180px] active:scale-[0.98] transition-100 hover:brightness-[94%] text-white font-normal cursor-pointer rounded-md shadow-md' onClick={() => deleleteShop(dataShop?.[0].shop_id)}>
                             Delete Shop <FaTrash className='ml-3' />
                         </div>
                     ):
@@ -173,13 +170,13 @@ const AccountSetting = () => {
                     </ul>
                 </div>
 
-                {dataShop ? (
+                {dataShop?.[0] ? (
                     <div>
                         <form onSubmit={formikUpdate.handleSubmit} className="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-black">
                             <h6 className="text-lg font-bold mb-5">Update shop</h6>
                             <div className="flex flex-col sm:flex-row">
                                 <div className="ltr:sm:mr-4 rtl:sm:ml-4 w-full sm:w-2/12 mb-5">
-                                    <img src={`https://huda.descode.id/uploads/${dataShop ? dataShop.image_shop : 'default.png'}`} alt="img" className="w-20 h-20 md:w-[135px] md:h-[132px] rounded-full object-contain border-gray-200 border-2 mx-auto" />
+                                    <img src={`https://huda.descode.id/uploads/${dataShop?.[0] ? dataShop?.[0].image_shop : 'default.png'}`} alt="img" className="w-20 h-20 md:w-[135px] md:h-[132px] rounded-full object-contain border-gray-200 border-2 mx-auto" />
                                 </div>
                                 <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
@@ -193,7 +190,7 @@ const AccountSetting = () => {
                                             onChange={formikUpdate.handleChange}
                                             onBlur={formikUpdate.handleBlur}
                                             disabled={true}
-                                            value={dataShop ? dataShop.seller_id : ''}
+                                            value={dataShop?.[0] ? dataShop?.[0].seller_id : ''}
                                         />
                                     </div>
                                     <div>
@@ -202,7 +199,7 @@ const AccountSetting = () => {
                                             type='text'
                                             id='email_seller'
                                             name='email_seller'
-                                            value={dataShop ? dataShop.email_seller : ''}
+                                            value={dataShop?.[0] ? dataShop?.[0].email_seller : ''}
                                             onError={formikUpdate.errors.email_seller}
                                             onTouched={!!formikUpdate.touched.email_seller}
                                             onChange={formikUpdate.handleChange}

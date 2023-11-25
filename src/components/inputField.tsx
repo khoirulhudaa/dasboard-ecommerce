@@ -1,5 +1,21 @@
 import React from 'react';
 
+interface inputProps {
+    label?: string,
+    onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
+    value?: any,
+    placeholder?: string,
+    type?: string,
+    name?: string,
+    id?: string,
+    typeInput?: string,
+    options?: { label: string, value: string }[],
+    onError?: string | undefined,
+    onTouched?: boolean | undefined,
+    disabled?: boolean,
+}
+
 const InputField = React.forwardRef(({
   label,
   onBlur,
@@ -14,21 +30,7 @@ const InputField = React.forwardRef(({
   onError,
   onTouched,
   disabled,
-}: {
-  label?: string,
-  onBlur?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
-  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
-  value?: any,
-  placeholder?: string,
-  type?: string,
-  name?: string,
-  id?: string,
-  typeInput?: string,
-  options?: { label: string, value: string }[],
-  onError?: string | undefined,
-  onTouched?: boolean | undefined,
-  disabled?: boolean,
-}, ref: any) => {
+}: inputProps, ref: any) => {
   switch (typeInput) {
       case "select-input":
           return (
@@ -40,7 +42,7 @@ const InputField = React.forwardRef(({
                     name={name} 
                     ref={ref}
                     className={`w-[100%] rounded-md text-[14px] bg-white outline-0 border-[1px] p-2 box-sizing ${onError && onTouched ? 'border-red-500 text-[red]' : ''}${disabled ? 'bg-gray-100' : '' }`} 
-                    value={value} 
+                    value={value !== undefined ? value : (type === 'number' ? 0 : '')} 
                     placeholder={placeholder}
                     onChange={onChange}
                     onBlur={onBlur}>
@@ -69,7 +71,7 @@ const InputField = React.forwardRef(({
                 id={id}
                 name={name}
                 disabled={disabled}
-                value={value}
+                value={value !== undefined ? value : (type === 'number' ? 0 : '')}
                 ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}
@@ -97,7 +99,7 @@ const InputField = React.forwardRef(({
                 name={name}
                 ref={ref}
                 disabled={disabled}
-                value={value}
+                value={value !== undefined ? value : (type === 'number' ? 0 : '')}
                 onChange={onChange}
                 onBlur={onBlur}
                 className={`form-input ${onError && onTouched ? 'border-red-500 text-red-500' : ''} ${disabled ? 'bg-gray-100' : '' }`} // Tambahkan kelas sesuai kondisi yang sesuai

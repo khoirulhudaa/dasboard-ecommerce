@@ -153,7 +153,7 @@ const AltPagination = () => {
     const optionsCategory = [
         {label: 'Select Category', value: ''},
         {label: 'Shoes', value: 'Shoes'},
-        {label: 'Sports equipment', value: 'Sports equipment'},
+        {label: 'Sports equipment', value: '    '},
         {label: 'Sports clothing', value: 'Sports clothing'},
     ]
 

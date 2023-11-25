@@ -60,6 +60,7 @@ const LoginBoxed = () => {
                             value={formik.values.password} 
                             name='password' 
                             label='password'
+                            type='password'
                             onError={formik.errors.password}
                             onTouched={!!formik.touched.password}
                             onChange={formik.handleChange} 

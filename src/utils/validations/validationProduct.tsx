@@ -47,7 +47,7 @@ const useProductFormik = ({ onError, onResponse }:{ onError?: any, onResponse?: 
             product_description: Yup.string()
             .required('This field is required.')
             .min(10, 'Must be at lest 10 characters')
-            .max(100, 'Maximum only 100 characters'),
+            .max(500, 'Maximum only 500 characters'),
             product_size: Yup.string()
             .required('This field is required.'),
             product_price: Yup.number()

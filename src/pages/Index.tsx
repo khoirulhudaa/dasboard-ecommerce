@@ -1,80 +1,93 @@
 import { useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../assets/css/animate.css';
+import AlertPayment from '../components/alertPayment';
+import Button from '../components/button';
 import { isEqual } from '../helpers/equal';
+import toRupiah from '../helpers/toRupiah';
 import API from '../services/api';
+import { getBalance } from '../store/paymentSlice';
 import { getProduct } from '../store/productSlice';
 import { getShopById } from '../store/shopSlice';
+import SweetAlert from '../components/alertBox';
 
 const Finance = () => {
     const dispatch = useDispatch();
-    const [alertStatus, setAlertStatus] = useState(true)
-    const [alertMessage, setAlertMessage] = useState("")
     const [dataProducts, setDataProducts] = useState<any[]>([])
-    const [dataShop, setDataShop] = useState<any[]>([])
-    const [dataFetch, setDataFetch] = useState<boolean>(false)
+    const [statusWithdraw, setStatusWithdraw] = useState<boolean>(false)
+    const [revenue, setRevenue] = useState<number>(0)
+    const [balance, setBalance] = useState<number>(0)
+    const [result, setResult] = useState<string>("")
 
     const products = useSelector((state: any) => state.productSlice.products)
-    console.log('products', products)
-    
     const auth = useSelector((state: any) => state.authSlice.auth)
-    console.log('auth', auth)
-    
-    const shop = useSelector((state: any) => state.shopSlice.shop)
-    console.log('shop', shop)
 
     useEffect(() => {
         const resultData = async () => {
             try {
-                const responseShop:any = await API.getShopById(auth.seller_id)
+                const responseShop = await API.getShopById(auth?.seller_id)
                 const response = await API.getAllProduct(responseShop.data.data[0].shop_id)
-
-                if(!isEqual(dataProducts, response.data.data)) {
+                const responseRevenue = await API.getRevenueById(responseShop.data.data[0].shop_id)
+                setStatusWithdraw(false)
+                
+                if(!isEqual(dataProducts, response.data.data) || !isEqual(balance, responseRevenue.data.data.balance)) {
                     dispatch(getProduct(response.data.data))
                     dispatch(getShopById(responseShop.data.data));
+                    dispatch(getBalance(responseRevenue.data.data.balance))
                     setDataProducts(response.data.data)
+                    setRevenue(responseRevenue.data.data.revenue)
+                    setBalance(responseRevenue.data.data.balance)
+                    setResult("")
                 } 
                 
-                setDataShop(shop[0])
             } catch (error: any) {
                 console.log(error.message);
             }
         };
         
         resultData();
-    }, [shop[0], products[0]?.data, dispatch]);
-
-    const handleCloseAlert = (status: boolean) => {
-        setAlertStatus(status)
-    }
-
+    }, [result, products[0]?.data, result, dispatch]);
+    
     return (
         <div>
-            <ul className="flex space-x-2 rtl:space-x-reverse">
+            {
+                result !== "" ? (
+                    <SweetAlert 
+                        title={`${result}`}
+                        type="success"
+                        showConfirm={true}
+                        showCancel={false}
+                    /> 
+                ): 
+                    null
+            }
+            {
+                statusWithdraw ? <AlertPayment close={(response: string) => setResult(response)} onClick={() => setStatusWithdraw(false)} /> : null
+            }
+                
+            <ul className="flex items-center justify-between space-x-2 rtl:space-x-reverse">
                 <li>
                     <Link to="#" className="text-primary hover:underline">
                         Dashboard
                     </Link>
                 </li>
-            </ul>
-            {
-                alertStatus && alertMessage !== "" ? (
-                    <div className='lg:w-[70%] w-[90vw] flex items-center justify-between text-[20px] h-max bg-red-400 text-white font-normal px-4 py-3 rounded-md shadow-lg z-[999999] fixed top-2 animate-fadeInDown2'>
-                        <small>{alertMessage}</small>
-                        <FaTimes 
-                            size={18} 
-                            color='white' 
-                            onClick={() => handleCloseAlert(false)} 
-                        />
+                <div className='flex items-center'>
+                    <p>SALDO : 
+                        <span className='font-bold ml-2 text-[16px]'>
+                            {balance ? toRupiah(balance) : 0}
+                        </span>
+                    </p>
+                    <div className='w-[1px] h-[40px] bg-slate-300 mx-5'>
+
                     </div>
-                ):
-                    <></>
-            }
-            
+                    <small className='text-slate-500 text-[14px] mr-5'>Min. balance Rp. 10.000</small>
+                    <Button disabled={balance > 10000 ? false : true} text='Withdraw' onClick={() => setStatusWithdraw(true)} />
+                </div>
+            </ul>
+            <hr className='my-5' />
             <div className="pt-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Products</div>
@@ -83,46 +96,19 @@ const Finance = () => {
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataProducts && dataProducts.length > 0 ? dataProducts?.length : 0} items</div>
                         </div>
                         <div className="flex items-center font-semibold mt-5">
-                            Existing product info
+                            Total product
                         </div>
                     </div>
 
-                    {/* Sessions */}
-                    <div className="panel bg-gradient-to-r from-violet-500 to-violet-400">
-                        <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Purchased item</div>
-                        </div>
-                        <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 50 items</div>
-                        </div>
-                        <div className="flex items-center font-semibold mt-5">
-                            Existing product info
-                        </div>
-                    </div>
-
-                    {/*  Time On-Site */}
-                    <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
-                        <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Followers</div>
-                        </div>
-                        <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {dataShop?.length ?? 0} users</div>
-                        </div>
-                        <div className="flex items-center font-semibold mt-5">
-                            Existing product info
-                        </div>
-                    </div>
-
-                    {/* Bounce Rate */}
                     <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Total revenue</div>
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> Rp. 28.000</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{revenue ? toRupiah(revenue) : 0}</div>
                         </div>
                         <div className="flex items-center font-semibold mt-5">
-                            Existing product info
+                            Total revenue
                         </div>
                     </div>
                 </div>

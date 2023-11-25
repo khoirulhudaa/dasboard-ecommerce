@@ -27,20 +27,20 @@ export const useLoginFormik = ({onError}: {onError?: any}) => {
         }),
         onSubmit: async (values: any, {resetForm}) => {
             try {
-                const response: AxiosResponse = await API.checkAccountSeller(values)
-                await API.getAccountSeller(response.data.data.seller_id)
-                dispatch(authSignIn(response.data.data))
-                dispatch(saveToken(response.data.token))
-               
-                if(response) {
+                const response: any = await API.checkAccountSeller(values)
+                console.log('dd', response)
+                if(response.data.status === 401 || response.data.status === 404) {  
+                    onError(response.data.message)
+                }else {
+                    await API.getAccountSeller(response.data.seller_id)
+                    dispatch(authSignIn(response.data.data))
+                    dispatch(saveToken(response.data.token))
                     resetForm()
                     navigate('/')
-                }else {
-                    onError("Incorrect email or password!")
                 }
                 
             } catch (error: any) {
-                onError("Incorrect email or password!")
+                onError("Error signin!")
             }
         }
     })
