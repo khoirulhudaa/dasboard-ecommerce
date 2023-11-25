@@ -59,7 +59,7 @@ const SalesHistory = () => {
 
     const filteredData = useMemo(() => {
         if (!search) {
-            return dataHistory.filter((dataMain) => {
+            return dataHistory?.filter((dataMain) => {
                 return (
                     dataMain.shop_id === shop?.[0].shop_id &&
                     (dataMain.status === "PENDING" || dataMain.status === "PAID")
@@ -67,7 +67,7 @@ const SalesHistory = () => {
             });
         }
     
-        return dataHistory.filter((dataMain) => {
+        return dataHistory?.filter((dataMain) => {
             return (
                 dataMain.shop_id === shop?.[0].shop_id &&
                 (dataMain.status === "PENDING" || dataMain.status === "PAID") &&

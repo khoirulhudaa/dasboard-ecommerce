@@ -59,7 +59,7 @@ const OnDelivery = () => {
 
     const filteredData = useMemo(() => {
         if (!search) {
-            return dataHistory.filter((dataMain) => {
+            return dataHistory?.filter((dataMain) => {
                 return (
                     dataMain.shop_id === shop?.[0].shop_id &&
                     (dataMain?.status === 'PACK' || dataMain?.status === 'ON-DELIVERY' || dataMain?.status === 'ACCEPTED')
@@ -67,7 +67,7 @@ const OnDelivery = () => {
             });
         }
     
-        return dataHistory.filter((dataMain) => {
+        return dataHistory?.filter((dataMain) => {
             return (
                 dataMain.shop_id === shop?.[0].shop_id &&
                 (dataMain?.status === 'PACK' || dataMain?.status === 'ON-DELIVERY' || dataMain?.status === 'ACCEPTED') &&
